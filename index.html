@@ -3,908 +3,880 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Meridian Estate — Biuro Nieruchomości</title>
+<title>NEXUS — Biuro Nieruchomości</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Outfit:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 
 :root{
-  --gold:#B89C6E;
-  --gold-l:#D4B88A;
-  --gold-d:#8A7250;
-  --gold-pale:#F0E8D8;
-  --black:#080807;
-  --dark:#0F0E0C;
-  --dark2:#161512;
-  --dark3:#1E1C18;
-  --dark4:#272420;
-  --cream:#F7F3EC;
-  --cream2:#EDE6D8;
-  --muted:#6B6658;
-  --muted2:#4A4540;
-  --border:rgba(184,156,110,0.18);
-  --border2:rgba(184,156,110,0.35);
+  /* addedvalue.pl palette: white bg, light grey sections, dark navy text, subtle warm/khaki accent */
+  --white:    #FFFFFF;
+  --off:      #F7F7F5;
+  --grey-l:   #EFEFED;
+  --grey-m:   #DDDBD8;
+  --grey-d:   #9E9C99;
+  --navy:     #1C2340;
+  --navy2:    #252D4A;
+  --navy3:    #2F3860;
+  --khaki:    #8B7D5C;
+  --khaki-l:  #A8966F;
+  --khaki-d:  #6B5F44;
+  --text:     #2A2A28;
+  --text2:    #5A5A56;
+  --border:   #E2E0DC;
+  --border2:  rgba(28,35,64,0.12);
 }
 
 html{scroll-behavior:smooth}
-body{font-family:'Outfit',sans-serif;background:var(--dark);color:var(--cream);overflow-x:hidden}
+body{font-family:'Raleway',sans-serif;background:var(--white);color:var(--text);overflow-x:hidden}
 
-/* ── FLOATING CONTACT BUTTONS ── */
-.float-btns{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:400;display:flex;flex-direction:column;gap:0}
-.float-btn{width:52px;height:52px;background:var(--dark3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;text-decoration:none;transition:background .25s,border-color .25s;position:relative;overflow:hidden}
-.float-btn::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--gold);transform:scaleY(0);transform-origin:bottom;transition:transform .25s}
-.float-btn:hover{background:var(--dark4);border-color:var(--gold)}
-.float-btn:hover::before{transform:scaleY(1)}
-.float-btn svg{width:18px;height:18px;fill:var(--gold-l)}
-
-.yr{font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:300;color:var(--gold);line-height:1}
-
-.num{font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:300;color:var(--gold);line-height:1}
-/* ── COOKIE BANNER ── */
-#cookie{position:fixed;bottom:0;left:0;right:0;z-index:600;background:var(--dark3);border-top:1px solid var(--border);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:2rem;font-size:.78rem;color:var(--muted)}
-#cookie a{color:var(--gold);text-decoration:underline}
-#cookie button{font-family:'Outfit',sans-serif;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;background:var(--gold);color:var(--dark);border:none;padding:.5rem 1.4rem;cursor:pointer;white-space:nowrap;transition:background .2s}
-#cookie button:hover{background:var(--gold-l)}
+/* ── COOKIE ── */
+#cookie{position:fixed;bottom:0;left:0;right:0;z-index:800;background:var(--navy);padding:.9rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:1.5rem}
+#cookie p{font-size:.75rem;color:rgba(255,255,255,.65);line-height:1.5}
+#cookie a{color:var(--khaki-l);text-decoration:underline}
+#cookie button{font-family:'Raleway',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;background:var(--khaki);color:#fff;border:none;padding:.55rem 1.6rem;cursor:pointer;white-space:nowrap;transition:background .2s;flex-shrink:0}
+#cookie button:hover{background:var(--khaki-l)}
 #cookie.gone{display:none}
 
+/* ── SIDE FIXED BUTTONS (like addedvalue) ── */
+.side-btns{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:600;display:flex;flex-direction:column}
+.side-btn{display:flex;align-items:center;justify-content:center;width:48px;height:48px;background:var(--navy);border-left:3px solid var(--khaki);text-decoration:none;transition:background .2s,width .25s;overflow:hidden;position:relative}
+.side-btn:hover{background:var(--navy3);width:52px}
+.side-btn svg{width:18px;height:18px;fill:var(--khaki-l);flex-shrink:0}
+
 /* ── NAV ── */
-nav{position:fixed;top:0;left:0;right:0;z-index:300;height:70px;display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;background:rgba(8,8,7,.9);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
-.nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:300;letter-spacing:.25em;text-transform:uppercase;color:var(--cream);text-decoration:none}
-.nav-logo span{color:var(--gold);font-style:italic}
-.nav-links{display:flex;gap:0;list-style:none}
-.nav-links a{font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);text-decoration:none;padding:.5rem 1.1rem;transition:color .2s;position:relative}
-.nav-links a::after{content:'';position:absolute;bottom:-1px;left:1.1rem;right:1.1rem;height:1px;background:var(--gold);transform:scaleX(0);transition:transform .25s}
-.nav-links a:hover{color:var(--gold-l)}
-.nav-links a:hover::after{transform:scaleX(1)}
-.nav-contact-btns{display:flex;gap:.6rem}
-.nav-icon-btn{width:38px;height:38px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;text-decoration:none;transition:border-color .2s,background .2s}
-.nav-icon-btn:hover{border-color:var(--gold);background:rgba(184,156,110,.07)}
-.nav-icon-btn svg{width:15px;height:15px;fill:var(--gold)}
+nav{position:fixed;top:0;left:0;right:0;z-index:500;background:var(--white);border-bottom:1px solid var(--border);height:68px;display:flex;align-items:center;padding:0 2rem;gap:2rem;transition:box-shadow .3s}
+nav.scrolled{box-shadow:0 2px 24px rgba(28,35,64,.09)}
+.nav-logo{font-family:'Raleway',sans-serif;font-size:1.4rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--navy);text-decoration:none;white-space:nowrap}
+.nav-logo span{color:var(--khaki)}
+.nav-links{display:flex;gap:0;list-style:none;margin-left:auto}
+.nav-links>li{position:relative}
+.nav-links>li>a{font-size:.65rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--navy);text-decoration:none;padding:.5rem 1rem;display:block;transition:color .2s;white-space:nowrap}
+.nav-links>li>a:hover{color:var(--khaki)}
+.nav-links>li:hover .nav-drop{opacity:1;visibility:visible;transform:translateY(0)}
+.nav-drop{position:absolute;top:100%;left:0;background:var(--white);border:1px solid var(--border);border-top:2px solid var(--khaki);min-width:180px;padding:.5rem 0;opacity:0;visibility:hidden;transform:translateY(-6px);transition:all .2s;z-index:100}
+.nav-drop a{display:block;font-size:.62rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--text2);padding:.55rem 1.2rem;text-decoration:none;transition:color .2s,background .2s}
+.nav-drop a:hover{color:var(--khaki);background:var(--off)}
+.nav-contact{display:flex;gap:.5rem;margin-left:1.5rem}
+.nav-c-btn{width:36px;height:36px;border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;text-decoration:none;transition:border-color .2s,background .2s}
+.nav-c-btn:hover{border-color:var(--khaki);background:var(--off)}
+.nav-c-btn svg{width:14px;height:14px;fill:var(--navy)}
 
 /* ── HERO ── */
-.hero{height:100vh;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.hero-bg{position:absolute;inset:0;z-index:0}
-/* Animated architectural grid background */
-.hero-bg svg{width:100%;height:100%;display:block;opacity:.18}
-.hero-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(8,8,7,.92) 0%,rgba(8,8,7,.7) 50%,rgba(8,8,7,.88) 100%);z-index:1}
-.hero-content{position:relative;z-index:2;text-align:center;max-width:860px;padding:0 2rem}
-.hero-eyebrow{font-size:.65rem;letter-spacing:.45em;text-transform:uppercase;color:var(--gold);margin-bottom:1.8rem;display:flex;align-items:center;justify-content:center;gap:1.2rem}
-.hero-eyebrow::before,.hero-eyebrow::after{content:'';display:block;width:40px;height:1px;background:var(--gold)}
-.hero-h1{font-family:'Cormorant Garamond',serif;font-size:clamp(3.5rem,7vw,7rem);font-weight:300;line-height:.95;letter-spacing:.02em;margin-bottom:2rem}
-.hero-h1 em{font-style:italic;color:var(--gold);display:block}
-.hero-sub{font-size:1rem;font-weight:300;color:rgba(247,243,236,.55);line-height:1.8;max-width:520px;margin:0 auto 3rem}
-.hero-ctas{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
-.btn-gold{font-family:'Outfit',sans-serif;font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;background:var(--gold);color:var(--dark);padding:.9rem 2.4rem;border:none;cursor:pointer;transition:all .25s;text-decoration:none;display:inline-block}
-.btn-gold:hover{background:var(--gold-l);transform:translateY(-2px)}
-.btn-outline-gold{font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);border:1px solid var(--border2);padding:.9rem 2.4rem;background:transparent;cursor:pointer;transition:all .25s;text-decoration:none;display:inline-block}
-.btn-outline-gold:hover{border-color:var(--gold);background:rgba(184,156,110,.07)}
-/* Hero scroll indicator */
-.hero-scroll{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:.6rem}
-.hero-scroll-line{width:1px;height:48px;background:linear-gradient(var(--gold),transparent);animation:scrollPulse 2s ease-in-out infinite}
-.hero-scroll-label{font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;color:var(--muted)}
-@keyframes scrollPulse{0%,100%{opacity:.4;transform:scaleY(1)}50%{opacity:1;transform:scaleY(1.1)}}
-/* Stars / badges floating */
-.hero-badge{position:absolute;z-index:2}
-.hero-badge-1{top:12%;right:8%;animation:floatA 5s ease-in-out infinite}
-.hero-badge-2{bottom:18%;left:6%;animation:floatB 6s ease-in-out infinite}
-@keyframes floatA{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-@keyframes floatB{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+.hero{height:100vh;position:relative;display:flex;align-items:center;overflow:hidden;background:var(--navy)}
+.hero-bg-svg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.18}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(110deg,rgba(28,35,64,.97) 0%,rgba(28,35,64,.82) 45%,rgba(28,35,64,.55) 100%)}
+.hero-content{position:relative;z-index:2;padding:0 3rem 0 3rem;max-width:700px}
+.hero-kicker{display:inline-flex;align-items:center;gap:.8rem;font-size:.62rem;font-weight:700;letter-spacing:.35em;text-transform:uppercase;color:var(--khaki-l);margin-bottom:1.8rem}
+.hero-kicker::before{content:'';display:block;width:28px;height:1px;background:var(--khaki-l)}
+.hero-h1{font-family:'Lora',serif;font-size:clamp(2.8rem,5.5vw,5.5rem);font-weight:400;line-height:1;color:var(--white);margin-bottom:1rem;letter-spacing:-.01em}
+.hero-h1 em{font-style:italic;color:var(--khaki-l)}
+.hero-tagline{font-size:1rem;font-weight:300;color:rgba(255,255,255,.55);line-height:1.8;max-width:460px;margin-bottom:3rem}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap}
+.btn-solid{font-size:.65rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;background:var(--khaki);color:var(--white);padding:.85rem 2.2rem;border:none;cursor:pointer;transition:background .2s,transform .15s;text-decoration:none;display:inline-block}
+.btn-solid:hover{background:var(--khaki-l);transform:translateY(-1px)}
+.btn-frame{font-size:.65rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--white);border:1px solid rgba(255,255,255,.3);padding:.85rem 2.2rem;background:transparent;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}
+.btn-frame:hover{border-color:var(--khaki-l);color:var(--khaki-l)}
+/* hero badges */
+.hero-badge-wrap{position:absolute;right:5%;top:50%;transform:translateY(-50%);z-index:2;display:flex;flex-direction:column;gap:1rem}
+.h-badge{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(6px);padding:1.2rem 1.6rem;border-left:3px solid var(--khaki)}
+.h-badge-val{font-family:'Lora',serif;font-size:2.2rem;font-style:italic;color:var(--khaki-l);line-height:1}
+.h-badge-label{font-size:.58rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-top:.3rem}
+/* hero scroll caret */
+.hero-scroll{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:.5rem;animation:bobScroll 2s ease-in-out infinite}
+@keyframes bobScroll{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+.hero-scroll svg{width:20px;height:20px;fill:none;stroke:rgba(255,255,255,.3);stroke-width:1.5}
+.hero-scroll span{font-size:.58rem;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.25)}
 
-/* ── STATS BAR ── */
-.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);background:var(--dark2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
-.stat-cell{padding:2.2rem 1rem;text-align:center;border-right:1px solid var(--border);position:relative;overflow:hidden;transition:background .3s}
-.stat-cell:last-child{border-right:none}
-.stat-cell:hover{background:var(--dark3)}
-.stat-cell::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;color:var(--gold);background:var(--gold);transform:scaleX(0);transition:transform .35s}
-.stat-cell:hover::before{transform:scaleX(1)}
-.stat-num{font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:300;color:var(--gold);line-height:1}
-.stat-num sup{font-size:1.2rem;font-style:italic}
-.stat-lbl{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-top:.4rem}
+/* ── STATS BAND ── */
+.stats-band{background:var(--off);border-bottom:1px solid var(--border);display:grid;grid-template-columns:repeat(4,1fr)}
+.stat-box{padding:2rem 1rem;text-align:center;border-right:1px solid var(--border);position:relative;overflow:hidden;transition:background .25s}
+.stat-box:last-child{border-right:none}
+.stat-box:hover{background:var(--grey-l)}
+.stat-box::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--khaki);transform:scaleX(0);transform-origin:left;transition:transform .3s}
+.stat-box:hover::after{transform:scaleX(1)}
+.stat-n{font-family:'Lora',serif;font-size:2.6rem;font-style:italic;color:var(--navy);line-height:1}
+.stat-l{font-size:.6rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--grey-d);margin-top:.4rem}
 
-/* ── SECTION COMMON ── */
-.section-tag{font-size:.6rem;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:.6rem;display:flex;align-items:center;gap:.8rem}
-.section-tag::before{content:'//';opacity:.5;font-size:.65rem}
-.section-h{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,3.5vw,3.2rem);font-weight:300;line-height:1.05}
-.section-h em{font-style:italic;color:var(--gold)}
+/* ── SERVICE SECTIONS (addedvalue layout: big alternating panels) ── */
+.svc-section{display:grid;grid-template-columns:1fr 1fr;min-height:560px;border-bottom:1px solid var(--border)}
+.svc-section:nth-child(even) .svc-img{order:-1}
 
-/* ── SERVICES PANELS (addedvalue layout) ── */
-.services-wrap{background:var(--dark)}
-.service-panel{display:grid;grid-template-columns:1fr 1fr;min-height:520px;border-bottom:1px solid var(--border)}
-.service-panel:nth-child(even) .sp-visual{order:-1}
-.sp-visual{position:relative;overflow:hidden;background:var(--dark3)}
-.sp-visual svg{width:100%;height:100%;display:block;transition:transform .7s cubic-bezier(.25,.46,.45,.94)}
-.service-panel:hover .sp-visual svg{transform:scale(1.04)}
-.sp-visual-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(8,8,7,.3),transparent);pointer-events:none}
-.sp-icon-badge{position:absolute;top:2rem;left:2rem;background:var(--dark);border:1px solid var(--border);padding:.8rem 1.2rem;display:flex;align-items:center;gap:.8rem}
-.sp-icon-badge svg{width:22px;height:22px;fill:var(--gold)}
-.sp-icon-label{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-l)}
-.sp-body{padding:4rem 3.5rem;display:flex;flex-direction:column;justify-content:center;background:var(--dark2)}
-.sp-num{font-family:'Cormorant Garamond',serif;font-size:5rem;font-weight:300;color:rgba(184,156,110,.1);line-height:1;margin-bottom:.5rem;letter-spacing:.02em}
-.sp-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,2.5vw,2.8rem);font-weight:300;margin-bottom:1.2rem;line-height:1.05}
-.sp-title em{font-style:italic;color:var(--gold)}
-.sp-desc{font-size:.9rem;font-weight:300;color:var(--muted);line-height:1.85;margin-bottom:2rem;max-width:440px}
-/* Agent cards inside panel */
-.sp-agents{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:2rem}
-.agent-chip{display:flex;align-items:center;gap:.9rem;background:var(--dark3);border:1px solid var(--border);padding:.9rem 1.1rem;flex:1;min-width:200px;transition:border-color .25s}
-.agent-chip:hover{border-color:var(--gold-d)}
-.agent-avatar{width:44px;height:44px;border-radius:50%;border:1px solid var(--border2);overflow:hidden;flex-shrink:0}
-.agent-avatar svg{width:100%;height:100%}
-.agent-chip-name{font-size:.82rem;font-weight:500;color:var(--cream);margin-bottom:.15rem}
-.agent-chip-contact{font-size:.7rem;color:var(--muted)}
-.agent-chip-contact a{color:var(--gold-d);text-decoration:none;transition:color .2s}
-.agent-chip-contact a:hover{color:var(--gold)}
-.sp-cta{font-size:.65rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);border:1px solid var(--border2);padding:.7rem 1.8rem;background:transparent;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .25s;display:inline-flex;align-items:center;gap:.6rem;text-decoration:none}
-.sp-cta::after{content:'→';transition:transform .2s}
-.sp-cta:hover{border-color:var(--gold);background:rgba(184,156,110,.06)}
-.sp-cta:hover::after{transform:translateX(4px)}
+/* Image side */
+.svc-img{position:relative;overflow:hidden;background:var(--grey-l)}
+.svc-img svg{width:100%;height:100%;display:block;transition:transform .7s cubic-bezier(.25,.46,.45,.94)}
+.svc-section:hover .svc-img svg{transform:scale(1.04)}
+.svc-img-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(28,35,64,.15),transparent);pointer-events:none}
+.svc-cat-tag{position:absolute;top:0;left:0;background:var(--navy);color:var(--white);font-size:.58rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;padding:.55rem 1.2rem;display:flex;align-items:center;gap:.6rem}
+.svc-cat-tag svg{width:14px;height:14px;fill:var(--khaki-l)}
+.svc-num-bg{position:absolute;bottom:-1rem;right:1rem;font-family:'Lora',serif;font-size:9rem;font-style:italic;color:rgba(28,35,64,.06);line-height:1;pointer-events:none;user-select:none}
+
+/* Body side */
+.svc-body{padding:4rem 3.5rem;display:flex;flex-direction:column;justify-content:center;background:var(--white)}
+.svc-section:nth-child(even) .svc-body{background:var(--off)}
+.svc-label{font-size:.58rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--khaki);margin-bottom:.8rem;display:flex;align-items:center;gap:.6rem}
+.svc-label::before{content:'';display:block;width:20px;height:1px;background:var(--khaki)}
+.svc-title{font-family:'Lora',serif;font-size:clamp(1.8rem,2.8vw,3rem);font-weight:400;line-height:1;color:var(--navy);margin-bottom:1.4rem}
+.svc-title em{font-style:italic;color:var(--khaki)}
+.svc-desc{font-size:.88rem;font-weight:400;color:var(--text2);line-height:1.85;margin-bottom:2rem;max-width:440px}
+
+/* Agent cards */
+.agents-row{display:flex;gap:.8rem;flex-wrap:wrap;margin-bottom:2rem}
+.agent-card{flex:1;min-width:190px;display:flex;align-items:center;gap:.9rem;border:1px solid var(--border);padding:.9rem 1rem;transition:border-color .2s,background .2s;cursor:pointer}
+.agent-card:hover{border-color:var(--khaki);background:var(--off)}
+.agent-ava{width:48px;height:48px;border-radius:50%;overflow:hidden;flex-shrink:0;background:var(--grey-l);border:2px solid var(--grey-m)}
+.agent-ava svg{width:100%;height:100%;display:block}
+.agent-name{font-size:.8rem;font-weight:700;color:var(--navy);margin-bottom:.15rem;letter-spacing:.02em}
+.agent-phone{font-size:.72rem;color:var(--khaki-d);text-decoration:none;display:block;transition:color .2s}
+.agent-phone:hover{color:var(--khaki)}
+.agent-mail{font-size:.68rem;color:var(--grey-d);text-decoration:none;transition:color .2s}
+.agent-mail:hover{color:var(--khaki)}
+
+.svc-link{display:inline-flex;align-items:center;gap:.6rem;font-size:.65rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--navy);border:1px solid var(--navy);padding:.7rem 1.6rem;background:transparent;cursor:pointer;font-family:'Raleway',sans-serif;transition:all .25s;text-decoration:none}
+.svc-link::after{content:'→';transition:transform .2s}
+.svc-link:hover{background:var(--navy);color:var(--white)}
+.svc-link:hover::after{transform:translateX(4px)}
 
 /* ── ABOUT STRIP ── */
-.about-strip{background:var(--dark3);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:5rem 2.5rem;display:grid;grid-template-columns:1.2fr 1fr;gap:5rem;align-items:center}
-.about-text .section-h{margin-bottom:1.5rem}
-.about-desc{font-size:.95rem;font-weight:300;color:var(--muted);line-height:1.9;margin-bottom:2rem}
-.about-list{list-style:none;display:flex;flex-direction:column;gap:.6rem}
-.about-list li{font-size:.82rem;color:rgba(247,243,236,.6);display:flex;align-items:center;gap:.8rem}
-.about-list li::before{content:'';width:16px;height:1px;background:var(--gold);flex-shrink:0}
-.about-visual{position:relative}
-.about-visual svg{width:100%;display:block}
-.about-quote{position:absolute;bottom:-2rem;right:-1rem;background:var(--gold);color:var(--dark);padding:1.5rem 2rem;max-width:260px}
-.about-quote-text{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-style:italic;font-weight:400;line-height:1.4;margin-bottom:.5rem}
-.about-quote-author{font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;opacity:.7}
+.about-band{background:var(--navy);padding:5rem 3rem;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.about-left .svc-label{color:rgba(255,255,255,.4)}
+.about-left .svc-label::before{background:rgba(255,255,255,.3)}
+.about-h{font-family:'Lora',serif;font-size:clamp(2rem,3vw,3rem);font-weight:400;color:var(--white);line-height:1.1;margin-bottom:1.5rem}
+.about-h em{font-style:italic;color:var(--khaki-l)}
+.about-p{font-size:.88rem;font-weight:300;color:rgba(255,255,255,.5);line-height:1.9;margin-bottom:2rem}
+.about-checklist{list-style:none;display:flex;flex-direction:column;gap:.6rem;margin-bottom:2.5rem}
+.about-checklist li{font-size:.8rem;color:rgba(255,255,255,.65);display:flex;align-items:center;gap:.8rem}
+.about-checklist li::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--khaki-l);flex-shrink:0}
+.about-nums{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem}
+.about-num-box{border:1px solid rgba(255,255,255,.08);padding:1.5rem}
+.about-num-val{font-family:'Lora',serif;font-size:2.5rem;font-style:italic;color:var(--khaki-l);line-height:1}
+.about-num-lbl{font-size:.6rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-top:.4rem}
 
 /* ── CONTACT SECTION ── */
-.contact-section{display:grid;grid-template-columns:1fr 1fr;background:var(--dark)}
-.contact-left{padding:5rem 3.5rem;background:var(--dark2);border-right:1px solid var(--border)}
-.contact-right{padding:5rem 3.5rem}
-.contact-info-list{display:flex;flex-direction:column;gap:1.8rem;margin-top:2.5rem}
-.ci-item label{font-size:.58rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.3rem}
-.ci-item p{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:300;color:var(--cream2)}
-.ci-item a{color:var(--cream2);text-decoration:none;transition:color .2s}
-.ci-item a:hover{color:var(--gold)}
-.social-pills{display:flex;gap:.6rem;margin-top:2.5rem;flex-wrap:wrap}
-.soc-pill{display:flex;align-items:center;gap:.5rem;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);border:1px solid var(--border);padding:.5rem 1rem;text-decoration:none;transition:all .2s}
-.soc-pill svg{width:13px;height:13px;fill:var(--muted);transition:fill .2s}
-.soc-pill:hover{border-color:var(--gold);color:var(--gold-l)}
-.soc-pill:hover svg{fill:var(--gold)}
+.contact-section{display:grid;grid-template-columns:1fr 1.2fr}
+.contact-left{background:var(--off);padding:5rem 3rem;border-right:1px solid var(--border)}
+.contact-right{background:var(--white);padding:5rem 3rem}
+.c-info-list{display:flex;flex-direction:column;gap:1.6rem;margin-top:2rem}
+.c-info-item label{font-size:.58rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--khaki);display:block;margin-bottom:.3rem}
+.c-info-item p,.c-info-item a{font-size:.88rem;color:var(--navy);text-decoration:none;line-height:1.6;transition:color .2s;display:block}
+.c-info-item a:hover{color:var(--khaki)}
+.social-row{display:flex;gap:.5rem;margin-top:2rem;flex-wrap:wrap}
+.s-pill{display:flex;align-items:center;gap:.5rem;font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text2);border:1px solid var(--border);padding:.45rem .9rem;text-decoration:none;transition:all .2s}
+.s-pill svg{width:12px;height:12px;fill:var(--text2);transition:fill .2s}
+.s-pill:hover{border-color:var(--navy);color:var(--navy)}
+.s-pill:hover svg{fill:var(--navy)}
 /* Form */
-.contact-form{display:flex;flex-direction:column;gap:1.2rem}
+.c-form{display:flex;flex-direction:column;gap:1.1rem}
 .cf-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
-.cf-group label{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:.4rem}
-.cf-group input,.cf-group select,.cf-group textarea{width:100%;background:var(--dark3);border:1px solid var(--border);border-bottom:1px solid var(--border2);color:var(--cream);font-family:'Outfit',sans-serif;font-size:.88rem;font-weight:300;padding:.8rem 1rem;outline:none;transition:border-color .2s;-webkit-appearance:none}
-.cf-group select option{background:var(--dark3)}
-.cf-group input:focus,.cf-group select:focus,.cf-group textarea:focus{border-color:var(--gold);border-bottom-color:var(--gold)}
-.cf-group textarea{resize:vertical;min-height:110px}
-.form-ok{display:none;background:rgba(184,156,110,.1);border:1px solid var(--border2);padding:1rem;font-size:.82rem;color:var(--gold);text-align:center;margin-top:.5rem}
-.form-ok.show{display:block}
+.cf-g label{font-size:.58rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--grey-d);display:block;margin-bottom:.4rem}
+.cf-g input,.cf-g select,.cf-g textarea{width:100%;background:var(--off);border:1px solid var(--border);border-bottom:2px solid var(--grey-m);color:var(--text);font-family:'Raleway',sans-serif;font-size:.85rem;font-weight:400;padding:.8rem 1rem;outline:none;transition:border-color .2s;-webkit-appearance:none}
+.cf-g select option{background:var(--off)}
+.cf-g input:focus,.cf-g select:focus,.cf-g textarea:focus{border-color:var(--navy);border-bottom-color:var(--khaki)}
+.cf-g textarea{resize:vertical;min-height:110px}
+.rodo-row{display:flex;align-items:flex-start;gap:.7rem}
+.rodo-row input[type=checkbox]{width:auto;accent-color:var(--khaki);margin-top:3px;flex-shrink:0}
+.rodo-row label{font-size:.7rem;color:var(--grey-d);line-height:1.5;letter-spacing:0;text-transform:none;cursor:pointer}
+.form-done{display:none;background:var(--off);border:1px solid var(--grey-m);border-left:3px solid var(--khaki);padding:1rem 1.2rem;font-size:.82rem;color:var(--navy);margin-top:.5rem}
+.form-done.show{display:block}
 
 /* ── FOOTER ── */
-footer{background:var(--black);border-top:1px solid var(--border);padding:3rem 2.5rem}
-.footer-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem}
-.footer-logo{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:300;letter-spacing:.25em;text-transform:uppercase;color:var(--cream)}
-.footer-logo span{color:var(--gold);font-style:italic}
-.footer-links{display:flex;gap:1.8rem;flex-wrap:wrap}
-.footer-links a{font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s}
-.footer-links a:hover{color:var(--gold)}
-.footer-copy{font-size:.65rem;color:var(--muted2);letter-spacing:.06em}
+footer{background:var(--navy2);border-top:3px solid var(--khaki);padding:3rem}
+.foot-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem}
+.foot-logo{font-family:'Raleway',sans-serif;font-size:1.1rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--white)}
+.foot-logo span{color:var(--khaki-l)}
+.foot-copy{font-size:.65rem;color:rgba(255,255,255,.3);letter-spacing:.06em;margin-top:.3rem}
+.foot-links{display:flex;gap:1.5rem;flex-wrap:wrap}
+.foot-links a{font-size:.62rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4);text-decoration:none;transition:color .2s}
+.foot-links a:hover{color:var(--khaki-l)}
 
-/* ── REVEAL ANIMATIONS ── */
-.reveal{opacity:0;transform:translateY(32px);transition:opacity .9s cubic-bezier(.25,.46,.45,.94),transform .9s cubic-bezier(.25,.46,.45,.94)}
-.reveal.on{opacity:1;transform:none}
-.reveal-r{opacity:0;transform:translateX(32px);transition:opacity .9s cubic-bezier(.25,.46,.45,.94),transform .9s cubic-bezier(.25,.46,.45,.94)}
-.reveal-r.on{opacity:1;transform:none}
-.reveal-l{opacity:0;transform:translateX(-32px);transition:opacity .9s cubic-bezier(.25,.46,.45,.94),transform .9s cubic-bezier(.25,.46,.45,.94)}
-.reveal-l.on{opacity:1;transform:none}
+/* ── REVEAL ── */
+.rv{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s ease}
+.rv.on{opacity:1;transform:none}
+.rv-l{opacity:0;transform:translateX(-28px);transition:opacity .8s ease,transform .8s ease}
+.rv-l.on{opacity:1;transform:none}
+.rv-r{opacity:0;transform:translateX(28px);transition:opacity .8s ease,transform .8s ease}
+.rv-r.on{opacity:1;transform:none}
 
 /* ── RESPONSIVE ── */
 @media(max-width:900px){
-  .service-panel{grid-template-columns:1fr}
-  .service-panel:nth-child(even) .sp-visual{order:0}
-  .sp-visual{min-height:280px}
-  .about-strip{grid-template-columns:1fr;gap:3rem}
-  .contact-section{grid-template-columns:1fr}
-  .stats-bar{grid-template-columns:repeat(2,1fr)}
   .nav-links{display:none}
+  .hero-badge-wrap{display:none}
+  .svc-section{grid-template-columns:1fr}
+  .svc-section:nth-child(even) .svc-img{order:0}
+  .svc-img{min-height:280px}
+  .about-band{grid-template-columns:1fr;gap:3rem}
+  .contact-section{grid-template-columns:1fr}
+  .stats-band{grid-template-columns:repeat(2,1fr)}
   .cf-row{grid-template-columns:1fr}
-  .about-quote{position:static;margin-top:2rem;max-width:100%}
+  .foot-inner{flex-direction:column;align-items:flex-start}
 }
 </style>
 </head>
 <body>
 
-<!-- ── COOKIE BANNER ── -->
+<!-- COOKIE -->
 <div id="cookie">
-  <span>Ta strona używa plików Cookies. Więcej informacji w <a href="#">Polityce prywatności</a>.</span>
-  <button onclick="document.getElementById('cookie').classList.add('gone')">Zgadzam się</button>
+  <p>Ta strona używa plików Cookies. Więcej informacji w <a href="#">Polityce prywatności</a>.</p>
+  <button onclick="this.closest('#cookie').classList.add('gone')">Zgadzam się</button>
 </div>
 
-<!-- ── FLOATING BUTTONS ── -->
-<div class="float-btns">
-  <a class="float-btn" href="tel:+48221234567" title="Zadzwoń">
-    <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
-  </a>
-  <a class="float-btn" href="mailto:biuro@meridianestate.pl" title="E-mail">
-    <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-  </a>
-  <a class="float-btn" href="https://facebook.com" target="_blank" title="Facebook">
+<!-- SIDE BTNS -->
+<div class="side-btns">
+  <a class="side-btn" href="https://facebook.com" target="_blank" title="Facebook">
     <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
   </a>
+  <a class="side-btn" href="tel:+48736071824" title="Zadzwoń">
+    <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+  </a>
 </div>
 
-<!-- ── NAV ── -->
-<nav>
-  <a href="#" class="nav-logo">Biuro i agencia nieruchomości <span>Miedzyrzecz</span></a>
+<!-- NAV -->
+<nav id="mainNav">
+  <a href="#" class="nav-logo">NEXUS<span>.</span></a>
   <ul class="nav-links">
-    <li><a href="#biuro">Biuro Nieruchomości</a></li>
-    <li><a href="#deweloperskie">Projekty Deweloperskie</a></li>
-    <li><a href="#ekspresowa">Ekspresowa Sprzedaż</a></li>
-    <li><a href="#kredyty">Kredyty</a></li>
+    <li>
+      <a href="#biuro">Biuro Nieruchomości ▾</a>
+      <div class="nav-drop">
+        <a href="#biuro">Oferty biura</a>
+        <a href="#biuro">Pakiety</a>
+        <a href="#kredyty">Kredyt hipoteczny</a>
+      </div>
+    </li>
+    <li><a href="#deweloper">Projekty Deweloperskie</a></li>
+    <li><a href="#ekspres">Ekspresowa Sprzedaż</a></li>
     <li><a href="#kontakt">Kontakt</a></li>
     <li><a href="#onas">O nas</a></li>
   </ul>
-  <div class="nav-contact-btns">
-    <a class="nav-icon-btn" href="tel:+48221234567" title="Telefon">
-      <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
-    </a>
-    <a class="nav-icon-btn" href="mailto:biuro@meridianestate.pl" title="E-mail">
+  <div class="nav-contact">
+    <a class="nav-c-btn" href="mailto:biuro@nexus.pl" title="E-mail">
       <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+    </a>
+    <a class="nav-c-btn" href="tel:+48736071824" title="Zadzwoń">
+      <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
     </a>
   </div>
 </nav>
 
-<!-- ══════════════════════
-     HERO
-══════════════════════ -->
+<!-- ══ HERO ══ -->
 <section class="hero">
-  <div class="hero-bg">
-    <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <pattern id="finegrid" width="60" height="60" patternUnits="userSpaceOnUse">
-          <path d="M60 0H0V60" fill="none" stroke="#B89C6E" stroke-width=".6"/>
-        </pattern>
-      </defs>
-      <rect width="1440" height="900" fill="#0F0E0C"/>
-      <rect width="1440" height="900" fill="url(#finegrid)"/>
-      <!-- Skyline buildings -->
-      <!-- Building 1 – tall center -->
-      <rect x="580" y="120" width="280" height="780" fill="#161512"/>
-      <rect x="580" y="114" width="280" height="8" fill="#B89C6E" opacity=".5"/>
-      <!-- Glass facade verticals -->
-      <line x1="640" y1="120" x2="640" y2="900" stroke="#B89C6E" stroke-width=".4" opacity=".3"/>
-      <line x1="700" y1="120" x2="700" y2="900" stroke="#B89C6E" stroke-width=".4" opacity=".3"/>
-      <line x1="760" y1="120" x2="760" y2="900" stroke="#B89C6E" stroke-width=".4" opacity=".3"/>
-      <line x1="820" y1="120" x2="820" y2="900" stroke="#B89C6E" stroke-width=".4" opacity=".3"/>
-      <!-- Floors -->
-      <g stroke="#B89C6E" stroke-width=".3" opacity=".2">
-        <line x1="580" y1="180" x2="860" y2="180"/><line x1="580" y1="240" x2="860" y2="240"/>
-        <line x1="580" y1="300" x2="860" y2="300"/><line x1="580" y1="360" x2="860" y2="360"/>
-        <line x1="580" y1="420" x2="860" y2="420"/><line x1="580" y1="480" x2="860" y2="480"/>
-        <line x1="580" y1="540" x2="860" y2="540"/><line x1="580" y1="600" x2="860" y2="600"/>
-        <line x1="580" y1="660" x2="860" y2="660"/><line x1="580" y1="720" x2="860" y2="720"/>
-        <line x1="580" y1="780" x2="860" y2="780"/>
-      </g>
-      <!-- Lit windows -->
-      <g fill="#D4B88A" opacity=".5">
-        <rect x="590" y="135" width="40" height="36"/><rect x="650" y="195" width="40" height="36"/>
-        <rect x="710" y="135" width="40" height="36"/><rect x="770" y="255" width="40" height="36"/>
-        <rect x="590" y="315" width="40" height="36"/><rect x="710" y="375" width="40" height="36"/>
-        <rect x="770" y="135" width="40" height="36"/><rect x="650" y="435" width="40" height="36"/>
-        <rect x="590" y="495" width="40" height="36"/><rect x="770" y="495" width="40" height="36"/>
-        <rect x="710" y="555" width="40" height="36"/><rect x="650" y="615" width="40" height="36"/>
-        <rect x="590" y="675" width="40" height="36"/><rect x="770" y="675" width="40" height="36"/>
-      </g>
-      <!-- Building 2 – left mid -->
-      <rect x="240" y="260" width="200" height="640" fill="#131210"/>
-      <rect x="240" y="255" width="200" height="6" fill="#8A7250" opacity=".5"/>
-      <g fill="#B89C6E" opacity=".25">
-        <rect x="254" y="274" width="30" height="22"/><rect x="296" y="274" width="30" height="22"/>
-        <rect x="338" y="274" width="30" height="22"/>
-        <rect x="254" y="310" width="30" height="22"/><rect x="338" y="310" width="30" height="22"/>
-        <rect x="254" y="346" width="30" height="22"/><rect x="296" y="346" width="30" height="22"/>
-        <rect x="296" y="382" width="30" height="22"/><rect x="338" y="382" width="30" height="22"/>
-      </g>
-      <!-- Building 3 – right mid -->
-      <rect x="1000" y="200" width="200" height="700" fill="#131210"/>
-      <rect x="1000" y="195" width="200" height="6" fill="#8A7250" opacity=".5"/>
-      <g fill="#B89C6E" opacity=".25">
-        <rect x="1014" y="214" width="30" height="22"/><rect x="1056" y="214" width="30" height="22"/>
-        <rect x="1098" y="214" width="30" height="22"/><rect x="1140" y="214" width="30" height="22"/>
-        <rect x="1014" y="250" width="30" height="22"/><rect x="1098" y="250" width="30" height="22"/>
-        <rect x="1056" y="286" width="30" height="22"/><rect x="1140" y="286" width="30" height="22"/>
-        <rect x="1014" y="322" width="30" height="22"/><rect x="1056" y="322" width="30" height="22"/>
-        <rect x="1098" y="322" width="30" height="22"/>
-      </g>
-      <!-- Building 4 – far left -->
-      <rect x="0" y="380" width="150" height="520" fill="#0f0e0c"/>
-      <rect x="140" y="320" width="110" height="580" fill="#111009"/>
-      <!-- Building 5 – far right -->
-      <rect x="1280" y="340" width="160" height="560" fill="#0f0e0c"/>
-      <rect x="1200" y="400" width="90" height="500" fill="#111009"/>
-      <!-- Spire on center -->
-      <rect x="706" y="60" width="28" height="62" fill="#B89C6E" opacity=".4"/>
-      <polygon points="720,20 706,64 734,64" fill="#B89C6E" opacity=".55"/>
-      <!-- Ground line -->
-      <line x1="0" y1="898" x2="1440" y2="898" stroke="#B89C6E" stroke-width="1" opacity=".3"/>
-    </svg>
-  </div>
+  <svg class="hero-bg-svg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <pattern id="pg" width="80" height="80" patternUnits="userSpaceOnUse">
+        <path d="M80 0H0V80" fill="none" stroke="#8B7D5C" stroke-width=".8"/>
+      </pattern>
+    </defs>
+    <rect width="1440" height="900" fill="#1C2340"/>
+    <rect width="1440" height="900" fill="url(#pg)"/>
+    <!-- Skyline silhouette -->
+    <!-- Far buildings -->
+    <rect x="0"    y="400" width="120" height="500" fill="#252D4A"/>
+    <rect x="110"  y="350" width="90"  height="550" fill="#2A3358"/>
+    <rect x="190"  y="420" width="70"  height="480" fill="#212844"/>
+    <!-- Mid buildings -->
+    <rect x="280"  y="200" width="140" height="700" fill="#212844"/>
+    <rect x="280"  y="196" width="140" height="5"   fill="#8B7D5C" opacity=".5"/>
+    <!-- Windows mid left -->
+    <g fill="#8B7D5C" opacity=".25">
+      <rect x="296" y="215" width="24" height="18"/><rect x="330" y="215" width="24" height="18"/><rect x="364" y="215" width="24" height="18"/>
+      <rect x="296" y="248" width="24" height="18"/><rect x="364" y="248" width="24" height="18"/>
+      <rect x="330" y="281" width="24" height="18"/><rect x="296" y="314" width="24" height="18"/><rect x="364" y="314" width="24" height="18"/>
+    </g>
+    <!-- Center hero tower -->
+    <rect x="560"  y="80"  width="320" height="820" fill="#1E2540"/>
+    <rect x="560"  y="75"  width="320" height="7"   fill="#8B7D5C" opacity=".7"/>
+    <!-- Facade grid center -->
+    <g stroke="#8B7D5C" stroke-width=".5" opacity=".12">
+      <line x1="600" y1="80" x2="600" y2="900"/><line x1="640" y1="80" x2="640" y2="900"/>
+      <line x1="680" y1="80" x2="680" y2="900"/><line x1="720" y1="80" x2="720" y2="900"/>
+      <line x1="760" y1="80" x2="760" y2="900"/><line x1="800" y1="80" x2="800" y2="900"/>
+      <line x1="840" y1="80" x2="840" y2="900"/>
+      <line x1="560" y1="140" x2="880" y2="140"/><line x1="560" y1="200" x2="880" y2="200"/>
+      <line x1="560" y1="260" x2="880" y2="260"/><line x1="560" y1="320" x2="880" y2="320"/>
+      <line x1="560" y1="380" x2="880" y2="380"/><line x1="560" y1="440" x2="880" y2="440"/>
+      <line x1="560" y1="500" x2="880" y2="500"/><line x1="560" y1="560" x2="880" y2="560"/>
+      <line x1="560" y1="620" x2="880" y2="620"/><line x1="560" y1="680" x2="880" y2="680"/>
+      <line x1="560" y1="740" x2="880" y2="740"/><line x1="560" y1="800" x2="880" y2="800"/>
+    </g>
+    <!-- Lit windows center -->
+    <g fill="#A8966F" opacity=".5">
+      <rect x="570" y="95"  width="26" height="35"/><rect x="610" y="155" width="26" height="35"/>
+      <rect x="650" y="95"  width="26" height="35"/><rect x="730" y="215" width="26" height="35"/>
+      <rect x="810" y="95"  width="26" height="35"/><rect x="570" y="275" width="26" height="35"/>
+      <rect x="690" y="335" width="26" height="35"/><rect x="770" y="155" width="26" height="35"/>
+      <rect x="850" y="275" width="26" height="35"/><rect x="610" y="395" width="26" height="35"/>
+      <rect x="730" y="455" width="26" height="35"/><rect x="810" y="395" width="26" height="35"/>
+      <rect x="570" y="515" width="26" height="35"/><rect x="690" y="575" width="26" height="35"/>
+      <rect x="850" y="515" width="26" height="35"/><rect x="770" y="635" width="26" height="35"/>
+      <rect x="610" y="695" width="26" height="35"/><rect x="730" y="755" width="26" height="35"/>
+    </g>
+    <!-- Right buildings -->
+    <rect x="900"  y="180" width="160" height="720" fill="#212844"/>
+    <rect x="900"  y="176" width="160" height="5"   fill="#8B7D5C" opacity=".4"/>
+    <g fill="#8B7D5C" opacity=".2">
+      <rect x="916" y="196" width="24" height="18"/><rect x="952" y="196" width="24" height="18"/><rect x="988" y="196" width="24" height="18"/><rect x="1024" y="196" width="24" height="18"/>
+      <rect x="916" y="228" width="24" height="18"/><rect x="988" y="228" width="24" height="18"/>
+      <rect x="952" y="260" width="24" height="18"/><rect x="1024" y="260" width="24" height="18"/>
+    </g>
+    <rect x="1060" y="300" width="200" height="600" fill="#1E2540"/>
+    <rect x="1260" y="380" width="180" height="520" fill="#1C2340"/>
+    <!-- Spire -->
+    <rect x="712"  y="28"  width="16"  height="54"  fill="#8B7D5C" opacity=".5"/>
+    <polygon points="720,4 712,32 728,32" fill="#8B7D5C" opacity=".65"/>
+    <!-- Ground -->
+    <line x1="0" y1="896" x2="1440" y2="896" stroke="#8B7D5C" stroke-width="1.5" opacity=".25"/>
+    <!-- Trees silhouette -->
+    <ellipse cx="480" cy="760" rx="40" ry="60" fill="#1A2038"/>
+    <rect x="476" y="818" width="8" height="82" fill="#161C32"/>
+    <ellipse cx="990" cy="740" rx="36" ry="54" fill="#1A2038"/>
+    <rect x="986" y="792" width="8" height="108" fill="#161C32"/>
+  </svg>
   <div class="hero-overlay"></div>
 
-  <!-- Floating badge 1 -->
-  <div class="hero-badge hero-badge-1">
-    <svg width="100" height="100" viewBox="0 0 100 100">
-      <circle cx="50" cy="50" r="46" fill="rgba(15,14,12,.85)" stroke="rgba(184,156,110,.3)" stroke-width="1"/>
-      <circle cx="50" cy="50" r="38" fill="none" stroke="rgba(184,156,110,.15)" stroke-width="1"/>
-      <text x="50" y="42" font-family="'Outfit',sans-serif" font-size="9" fill="rgba(184,156,110,.7)" text-anchor="middle" letter-spacing="2">EST.</text>
-      <text x="50" y="60" font-family="'Cormorant Garamond',serif" font-size="22" fill="#D4B88A" text-anchor="middle">2009</text>
-    </svg>
-  </div>
-
-  <!-- Floating badge 2 -->
-  <div class="hero-badge hero-badge-2">
-    <div style="background:rgba(15,14,12,.88);border:1px solid rgba(184,156,110,.3);padding:1rem 1.4rem;text-align:center">
-      <div style="font-family:'Cormorant Garamond',serif;font-size:2rem;color:#D4B88A;font-weight:300;line-height:1">850<sup style="font-size:.9rem">+</sup></div>
-      <div style="font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(184,156,110,.6);margin-top:.2rem">Transakcji</div>
+  <div class="hero-content">
+    <div class="hero-kicker">Biuro Nieruchomości Premium</div>
+    <h1 class="hero-h1">Nexus<br><em>Estate</em></h1>
+    <p class="hero-tagline">Profesjonalne doradztwo na rynku nieruchomości. Sprzedaż, wynajem, projekty deweloperskie — kompleksowo, skutecznie, z pasją.</p>
+    <div class="hero-actions">
+      <a href="#biuro" class="btn-solid">Nasze usługi</a>
+      <a href="#kontakt" class="btn-frame">Skontaktuj się</a>
     </div>
   </div>
 
-  <div class="hero-content">
-    <div class="hero-eyebrow">Biuro i agencia nieruchomości · Miedzyrzecz</div>
-    <h1 class="hero-h1">
-      Meridian
-      <em>Estate</em>
-    </h1>
-    <p class="hero-sub">Profesjonalne doradztwo na rynku nieruchomości. Sprzedaż, wynajem, projekty deweloperskie i ekspresowa sprzedaż — wszystko w jednym miejscu.</p>
-    <div class="hero-ctas">
-      <a href="#biuro" class="btn-gold">Poznaj nasze usługi</a>
-      <a href="#kontakt" class="btn-outline-gold">Skontaktuj się</a>
+  <div class="hero-badge-wrap">
+    <div class="h-badge">
+      <div class="h-badge-val">850<small style="font-size:1.2rem">+</small></div>
+      <div class="h-badge-label">Transakcji rocznie</div>
+    </div>
+    <div class="h-badge">
+      <div class="h-badge-val">15</div>
+      <div class="h-badge-label">Lat na rynku</div>
+    </div>
+    <div class="h-badge">
+      <div class="h-badge-val">4.9<small style="font-size:1rem">★</small></div>
+      <div class="h-badge-label">Ocena Google</div>
     </div>
   </div>
 
   <div class="hero-scroll">
-    <div class="hero-scroll-line"></div>
-    <span class="hero-scroll-label">Przewiń</span>
+    <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5"/></svg>
+    <span>Przewiń</span>
   </div>
 </section>
 
-<!-- ── STATS BAR ── -->
-<div class="stats-bar reveal">
-  <div class="stat-cell">
-    <div class="num">850+</div>
-    <div class="stat-lbl">Transakcji rocznie</div>
+<!-- STATS -->
+<div class="stats-band rv">
+  <div class="stat-box"><div class="stat-n">850<sup style="font-size:1.4rem">+</sup></div><div class="stat-l">Transakcji rocznie</div></div>
+  <div class="stat-box"><div class="stat-n"><em style="font-family:'Lora',serif">15</em></div><div class="stat-l">Lat doświadczenia</div></div>
+  <div class="stat-box"><div class="stat-n">98<sup style="font-size:1.4rem">%</sup></div><div class="stat-l">Zadowolonych klientów</div></div>
+  <div class="stat-box"><div class="stat-n">4.9<sup style="font-size:1.4rem">★</sup></div><div class="stat-l">Ocena Google</div></div>
+</div>
+
+<!-- ══ SEKCJA 1: BIURO NIERUCHOMOŚCI ══ -->
+<div class="svc-section" id="biuro">
+  <div class="svc-img">
+    <svg viewBox="0 0 720 560" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%;min-height:560px" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="720" height="560" fill="#EAE8E4"/>
+      <!-- Apartment interior — light, airy -->
+      <rect width="720" height="560" fill="url(#gi1)"/>
+      <defs><pattern id="gi1" width="60" height="60" patternUnits="userSpaceOnUse"><path d="M60 0H0V60" fill="none" stroke="#1C2340" stroke-width=".4" opacity=".07"/></pattern></defs>
+      <!-- Back wall warm white -->
+      <rect x="0" y="0" width="720" height="360" fill="#F0EDE8"/>
+      <!-- Feature wall panel -->
+      <rect x="180" y="0" width="360" height="360" fill="#E8E5DF"/>
+      <!-- Tall window -->
+      <rect x="280" y="20" width="160" height="320" fill="rgba(200,220,240,.25)" stroke="#C8C4BC" stroke-width="1"/>
+      <line x1="360" y1="20" x2="360" y2="340" stroke="#C8C4BC" stroke-width=".8"/>
+      <line x1="280" y1="180" x2="440" y2="180" stroke="#C8C4BC" stroke-width=".8"/>
+      <!-- Curtain -->
+      <path d="M280 20 Q265 180 275 340" fill="#E0DDD8" stroke="#D0CCC6" stroke-width=".5"/>
+      <path d="M440 20 Q455 180 445 340" fill="#E0DDD8" stroke="#D0CCC6" stroke-width=".5"/>
+      <!-- Floor -->
+      <rect x="0" y="358" width="720" height="202" fill="#DDD9D2"/>
+      <!-- Floor planks -->
+      <g stroke="#C8C4BC" stroke-width=".6" opacity=".5">
+        <line x1="0" y1="390" x2="720" y2="390"/><line x1="0" y1="420" x2="720" y2="420"/>
+        <line x1="0" y1="450" x2="720" y2="450"/><line x1="0" y1="480" x2="720" y2="480"/>
+        <line x1="0" y1="510" x2="720" y2="510"/>
+        <line x1="120" y1="360" x2="120" y2="560"/><line x1="240" y1="360" x2="240" y2="560"/>
+        <line x1="360" y1="360" x2="360" y2="560"/><line x1="480" y1="360" x2="480" y2="560"/>
+        <line x1="600" y1="360" x2="600" y2="560"/>
+      </g>
+      <!-- Baseboard -->
+      <line x1="0" y1="358" x2="720" y2="358" stroke="#8B7D5C" stroke-width="2" opacity=".35"/>
+      <!-- Sofa (light beige) -->
+      <rect x="160" y="310" width="400" height="70" rx="5" fill="#DDD9D4"/>
+      <rect x="160" y="308" width="400" height="8" rx="3" fill="#C8C4BC"/>
+      <rect x="160" y="307" width="8" height="72" rx="3" fill="#D0CCC6"/>
+      <rect x="552" y="307" width="8" height="72" rx="3" fill="#D0CCC6"/>
+      <!-- Cushions -->
+      <rect x="175" y="316" width="90" height="55" rx="4" fill="#C8C4BE"/>
+      <rect x="280" y="316" width="160" height="55" rx="4" fill="#D0CCC8"/>
+      <rect x="455" y="316" width="90" height="55" rx="4" fill="#C8C4BE"/>
+      <!-- Coffee table dark wood -->
+      <rect x="250" y="386" width="220" height="10" rx="3" fill="#5A4E3A" opacity=".5"/>
+      <rect x="300" y="396" width="24" height="30" fill="#4A4030" opacity=".4"/>
+      <rect x="396" y="396" width="24" height="30" fill="#4A4030" opacity=".4"/>
+      <!-- Potted plant -->
+      <rect x="96" y="300" width="24" height="60" rx="3" fill="#6B5E4A" opacity=".5"/>
+      <ellipse cx="108" cy="280" rx="30" ry="40" fill="#5A7040" opacity=".5"/>
+      <ellipse cx="108" cy="268" rx="22" ry="28" fill="#6A8050" opacity=".5"/>
+      <!-- Lamp -->
+      <rect x="596" y="220" width="4" height="140" fill="#8B7D5C" opacity=".5"/>
+      <ellipse cx="598" cy="218" rx="28" ry="12" fill="#E8E5DF" stroke="#C8C4BC" stroke-width=".8" opacity=".8"/>
+      <radialGradient id="lampg" cx="598" cy="240" r="80" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#8B7D5C" stop-opacity=".1"/>
+        <stop offset="100%" stop-color="#8B7D5C" stop-opacity="0"/>
+      </radialGradient>
+      <ellipse cx="598" cy="260" rx="90" ry="60" fill="url(#lampg)"/>
+      <!-- Wall art -->
+      <rect x="60" y="60" width="100" height="130" fill="#E0DDD8" stroke="#C0BCB4" stroke-width=".8"/>
+      <rect x="70" y="70" width="80" height="110" fill="#D8D4CE"/>
+      <line x1="78" y1="125" x2="142" y2="125" stroke="#8B7D5C" stroke-width=".8" opacity=".4"/>
+      <line x1="110" y1="82" x2="110" y2="172" stroke="#8B7D5C" stroke-width=".8" opacity=".4"/>
+      <!-- khaki accent stripe on wall -->
+      <rect x="0" y="340" width="720" height="4" fill="#8B7D5C" opacity=".2"/>
+    </svg>
+    <div class="svc-img-overlay"></div>
+    <div class="svc-cat-tag">
+      <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+      Biuro Nieruchomości
+    </div>
+    <div class="svc-num-bg">01</div>
   </div>
-  <div class="stat-cell">
-    <div class="yr">15</div>
-    <div class="stat-lbl">Lat na rynku</div>
-  </div>
-  <div class="stat-cell">
-    <div class="stat-num">98%</div>
-    <div class="stat-lbl">Zadowolonych klientów</div>
-  </div>
-  <div class="stat-cell">
-    <div class="stat-num">4.9★</div>
-    <div class="stat-lbl">Ocena Google</div>
+  <div class="svc-body rv-r">
+    <div class="svc-label">Dział I</div>
+    <h2 class="svc-title">Biuro<br><em>Nieruchomości</em></h2>
+    <p class="svc-desc">Kompleksowa sprzedaż i wynajem nieruchomości. Profesjonalne doradztwo, home staging, fotografia i marketing premium. Prowadzimy Cię przez każdy etap transakcji — od wyceny po notariusza.</p>
+    <div class="agents-row">
+      <div class="agent-card">
+        <div class="agent-ava">
+          <svg viewBox="0 0 48 48" fill="none"><rect width="48" height="48" fill="#DDD9D4"/><ellipse cx="24" cy="19" rx="10" ry="11" fill="#C8C4BC"/><path d="M6 48Q8 34 16 30Q24 26 32 30Q40 34 42 48Z" fill="#C0BCB4"/><ellipse cx="24" cy="17" rx="7" ry="8" fill="#D8D4CE"/></svg>
+        </div>
+        <div>
+          <div class="agent-name">Jarosław Gąsiorowski</div>
+          <a class="agent-phone" href="tel:+48736071824">+48 736 071 824</a>
+          <a class="agent-mail"  href="mailto:jarek@nexus.pl">jarek@nexus.pl</a>
+        </div>
+      </div>
+      <div class="agent-card">
+        <div class="agent-ava">
+          <svg viewBox="0 0 48 48" fill="none"><rect width="48" height="48" fill="#E8E5E0"/><ellipse cx="24" cy="19" rx="10" ry="11" fill="#D8D5D0"/><path d="M6 48Q8 34 16 30Q24 26 32 30Q40 34 42 48Z" fill="#D0CDC8"/><ellipse cx="24" cy="17" rx="7" ry="8" fill="#E0DDD8"/></svg>
+        </div>
+        <div>
+          <div class="agent-name">Rafał Budnik</div>
+          <a class="agent-phone" href="tel:+48605080092">+48 605 080 092</a>
+          <a class="agent-mail"  href="mailto:rafal@nexus.pl">rafal@nexus.pl</a>
+        </div>
+      </div>
+    </div>
+    <a href="#kontakt" class="svc-link">Zobacz szczegóły</a>
   </div>
 </div>
 
-<!-- ══════════════════════
-     SERVICE PANELS
-══════════════════════ -->
-<div class="services-wrap">
-
-  <!-- PANEL 1: Biuro Nieruchomości -->
-  <div class="service-panel" id="biuro">
-    <div class="sp-visual">
-      <svg viewBox="0 0 720 520" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%;min-height:520px">
-        <rect width="720" height="520" fill="#131210"/>
-        <rect width="720" height="520" fill="url(#finegrid2)"/>
-        <defs><pattern id="finegrid2" width="60" height="60" patternUnits="userSpaceOnUse"><path d="M60 0H0V60" fill="none" stroke="#B89C6E" stroke-width=".4" opacity=".4"/></pattern></defs>
-        <!-- Interior of luxury apartment -->
-        <!-- Room floor -->
-        <rect x="0" y="320" width="720" height="200" fill="#0e0d0b"/>
-        <!-- Floor tiles pattern -->
-        <g stroke="#B89C6E" stroke-width=".3" opacity=".2">
-          <line x1="0" y1="360" x2="720" y2="360"/><line x1="0" y1="400" x2="720" y2="400"/><line x1="0" y1="440" x2="720" y2="440"/><line x1="0" y1="480" x2="720" y2="480"/>
-          <line x1="90" y1="320" x2="90" y2="520"/><line x1="180" y1="320" x2="180" y2="520"/><line x1="270" y1="320" x2="270" y2="520"/><line x1="360" y1="320" x2="360" y2="520"/><line x1="450" y1="320" x2="450" y2="520"/><line x1="540" y1="320" x2="540" y2="520"/><line x1="630" y1="320" x2="630" y2="520"/>
-        </g>
-        <!-- Back wall -->
-        <rect x="0" y="0" width="720" height="322" fill="#161412"/>
-        <!-- Wall panels -->
-        <g fill="#1a1714" stroke="#B89C6E" stroke-width=".5" opacity=".6">
-          <rect x="30" y="40" width="160" height="270" rx="2"/>
-          <rect x="210" y="40" width="300" height="270" rx="2"/>
-          <rect x="530" y="40" width="160" height="270" rx="2"/>
-        </g>
-        <!-- Large window center -->
-        <rect x="230" y="55" width="260" height="240" fill="rgba(180,200,220,0.08)" stroke="#B89C6E" stroke-width=".8" opacity=".5"/>
-        <line x1="360" y1="55" x2="360" y2="295" stroke="#B89C6E" stroke-width=".8" opacity=".3"/>
-        <line x1="230" y1="175" x2="490" y2="175" stroke="#B89C6E" stroke-width=".8" opacity=".3"/>
-        <!-- Curtains -->
-        <path d="M230 55 Q210 175 225 295" fill="#1a1714" stroke="#B89C6E" stroke-width=".5" opacity=".4"/>
-        <path d="M490 55 Q510 175 495 295" fill="#1a1714" stroke="#B89C6E" stroke-width=".5" opacity=".4"/>
-        <!-- Sofa -->
-        <rect x="200" y="290" width="320" height="60" rx="4" fill="#1e1c18"/>
-        <rect x="200" y="288" width="320" height="8" rx="2" fill="#2a2620"/>
-        <rect x="200" y="288" width="8" height="62" rx="2" fill="#252220"/>
-        <rect x="512" y="288" width="8" height="62" rx="2" fill="#252220"/>
-        <!-- Cushions -->
-        <rect x="215" y="298" width="80" height="44" rx="3" fill="#2a2620"/>
-        <rect x="310" y="298" width="100" height="44" rx="3" fill="#242018"/>
-        <rect x="425" y="298" width="80" height="44" rx="3" fill="#2a2620"/>
-        <!-- Coffee table -->
-        <rect x="270" y="358" width="180" height="8" rx="2" fill="#B89C6E" opacity=".35"/>
-        <rect x="310" y="366" width="20" height="30" fill="#8A7250" opacity=".3"/>
-        <rect x="390" y="366" width="20" height="30" fill="#8A7250" opacity=".3"/>
-        <!-- Floor lamp -->
-        <rect x="560" y="180" width="3" height="140" fill="#2a2620"/>
-        <ellipse cx="561" cy="178" rx="30" ry="14" fill="#1e1c18" stroke="#B89C6E" stroke-width=".5" opacity=".5"/>
-        <circle cx="561" cy="180" r="4" fill="#D4B88A" opacity=".8"/>
-        <!-- Radial light from lamp -->
-        <radialGradient id="lampGlow" cx="561" cy="200" r="120" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stop-color="#B89C6E" stop-opacity=".12"/>
-          <stop offset="100%" stop-color="#B89C6E" stop-opacity="0"/>
-        </radialGradient>
-        <ellipse cx="561" cy="240" rx="130" ry="90" fill="url(#lampGlow)"/>
-        <!-- Artwork on wall -->
-        <rect x="50" y="70" width="120" height="90" fill="#1a1714" stroke="#B89C6E" stroke-width=".5" opacity=".6"/>
-        <rect x="60" y="80" width="100" height="70" fill="#141210"/>
-        <!-- Abstract artwork lines -->
-        <g stroke="#B89C6E" stroke-width=".8" opacity=".4">
-          <line x1="70" y1="115" x2="150" y2="115"/><line x1="90" y1="95" x2="90" y2="140"/>
-          <circle cx="110" cy="115" r="12" fill="none"/>
-        </g>
-        <!-- Gold trim baseboard -->
-        <line x1="0" y1="320" x2="720" y2="320" stroke="#B89C6E" stroke-width="1.5" opacity=".4"/>
-      </svg>
-      <div class="sp-visual-overlay"></div>
-      <div class="sp-icon-badge">
-        <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-        <span class="sp-icon-label">Biuro Nieruchomości</span>
-      </div>
-    </div>
-    <div class="sp-body reveal-r">
-      <div class="sp-num">01</div>
-      <h2 class="sp-title">Biuro<br><em>Nieruchomości</em></h2>
-      <p class="sp-desc">Kompleksowa obsługa sprzedaży i wynajmu nieruchomości. Profesjonalne doradztwo, home staging, marketing premium i negocjacje. Jesteśmy przy Tobie na każdym etapie transakcji.</p>
-      <div class="sp-agents">
-        <div class="agent-chip">
-          <div class="agent-avatar">
-            <svg viewBox="0 0 44 44" fill="none"><rect width="44" height="44" fill="#1E1C18"/><ellipse cx="22" cy="17" rx="10" ry="11" fill="#2a2620"/><path d="M4 44 Q6 30 14 26 Q22 22 30 26 Q38 30 40 44Z" fill="#242018"/><ellipse cx="22" cy="15" rx="7" ry="8" fill="#322e28"/></svg>
-          </div>
-          <div>
-            <div class="agent-chip-name">Anna Kowalska</div>
-            <div class="agent-chip-contact">
-              <a href="tel:+48736071824">+48 736 071 824</a><br>
-              <a href="mailto:anna@meridianestate.pl">anna@meridianestate.pl</a>
-            </div>
-          </div>
+<!-- ══ SEKCJA 2: PROJEKTY DEWELOPERSKIE ══ -->
+<div class="svc-section" id="deweloper">
+  <div class="svc-body rv-l">
+    <div class="svc-label">Dział II</div>
+    <h2 class="svc-title">Projekty<br><em>Deweloperskie</em></h2>
+    <p class="svc-desc">Ekskluzywny dostęp do prestiżowych inwestycji deweloperskich jeszcze przed oficjalną premierą. Preferencyjne ceny, priorytetowy wybór lokalizacji i pełne wsparcie na każdym etapie zakupu.</p>
+    <div class="agents-row">
+      <div class="agent-card">
+        <div class="agent-ava">
+          <svg viewBox="0 0 48 48" fill="none"><rect width="48" height="48" fill="#D8E4D8"/><ellipse cx="24" cy="19" rx="10" ry="11" fill="#C4D4C4"/><path d="M6 48Q8 34 16 30Q24 26 32 30Q40 34 42 48Z" fill="#BCD0BC"/><ellipse cx="24" cy="17" rx="7" ry="8" fill="#CCDCCC"/></svg>
         </div>
-        <div class="agent-chip">
-          <div class="agent-avatar">
-            <svg viewBox="0 0 44 44" fill="none"><rect width="44" height="44" fill="#1C1C1E"/><ellipse cx="22" cy="17" rx="10" ry="11" fill="#282830"/><path d="M4 44 Q6 30 14 26 Q22 22 30 26 Q38 30 40 44Z" fill="#202025"/><ellipse cx="22" cy="15" rx="7" ry="8" fill="#30303a"/></svg>
-          </div>
-          <div>
-            <div class="agent-chip-name">Rafał Budnik</div>
-            <div class="agent-chip-contact">
-              <a href="tel:+48605080092">+48 605 080 092</a><br>
-              <a href="mailto:rafal@meridianestate.pl">rafal@meridianestate.pl</a>
-            </div>
-          </div>
+        <div>
+          <div class="agent-name">Krzysztof Zapolski</div>
+          <a class="agent-phone" href="tel:+48790435000">+48 790 435 000</a>
+          <a class="agent-mail"  href="mailto:krzysiek@nexus.pl">krzysiek@nexus.pl</a>
         </div>
       </div>
-      <a href="#kontakt" class="sp-cta">Zobacz szczegóły</a>
+      <div class="agent-card">
+        <div class="agent-ava">
+          <svg viewBox="0 0 48 48" fill="none"><rect width="48" height="48" fill="#D8D8E8"/><ellipse cx="24" cy="19" rx="10" ry="11" fill="#C4C4D8"/><path d="M6 48Q8 34 16 30Q24 26 32 30Q40 34 42 48Z" fill="#BCBCD0"/><ellipse cx="24" cy="17" rx="7" ry="8" fill="#CCCCE0"/></svg>
+        </div>
+        <div>
+          <div class="agent-name">Patryk Markisz</div>
+          <a class="agent-phone" href="tel:+48730828231">+48 730 828 231</a>
+          <a class="agent-mail"  href="mailto:patryk@nexus.pl">patryk@nexus.pl</a>
+        </div>
+      </div>
     </div>
+    <a href="#kontakt" class="svc-link">Zobacz szczegóły</a>
   </div>
-
-  <!-- PANEL 2: Projekty Deweloperskie -->
-  <div class="service-panel" id="deweloperskie">
-    <div class="sp-body reveal-l">
-      <div class="sp-num">02</div>
-      <h2 class="sp-title">Projekty<br><em>Deweloperskie</em></h2>
-      <p class="sp-desc">Ekskluzywny dostęp do prestiżowych inwestycji deweloperskich w fazie przedsprzedaży. Preferencyjne warunki, priorytetowy wybór lokali i pełne wsparcie prawno-finansowe.</p>
-      <div class="sp-agents">
-        <div class="agent-chip">
-          <div class="agent-avatar">
-            <svg viewBox="0 0 44 44" fill="none"><rect width="44" height="44" fill="#1A1E18"/><ellipse cx="22" cy="17" rx="10" ry="11" fill="#222a20"/><path d="M4 44 Q6 30 14 26 Q22 22 30 26 Q38 30 40 44Z" fill="#1c2218"/><ellipse cx="22" cy="15" rx="7" ry="8" fill="#2a3228"/></svg>
-          </div>
-          <div>
-            <div class="agent-chip-name">Krzysztof Zapolski</div>
-            <div class="agent-chip-contact">
-              <a href="tel:+48790435000">+48 790 435 000</a><br>
-              <a href="mailto:krzysiek@meridianestate.pl">krzysiek@meridianestate.pl</a>
-            </div>
-          </div>
-        </div>
-        <div class="agent-chip">
-          <div class="agent-avatar">
-            <svg viewBox="0 0 44 44" fill="none"><rect width="44" height="44" fill="#1E1814"/><ellipse cx="22" cy="17" rx="10" ry="11" fill="#28200e"/><path d="M4 44 Q6 30 14 26 Q22 22 30 26 Q38 30 40 44Z" fill="#221c0e"/><ellipse cx="22" cy="15" rx="7" ry="8" fill="#302418"/></svg>
-          </div>
-          <div>
-            <div class="agent-chip-name">Patryk Markisz</div>
-            <div class="agent-chip-contact">
-              <a href="tel:+48730828231">+48 730 828 231</a><br>
-              <a href="mailto:patryk@meridianestate.pl">patryk@meridianestate.pl</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <a href="#kontakt" class="sp-cta">Zobacz szczegóły</a>
+  <div class="svc-img">
+    <svg viewBox="0 0 720 560" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%;min-height:560px" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="720" height="560" fill="#F5F3EF"/>
+      <rect width="720" height="560" fill="url(#gi2)"/>
+      <defs><pattern id="gi2" width="60" height="60" patternUnits="userSpaceOnUse"><path d="M60 0H0V60" fill="none" stroke="#1C2340" stroke-width=".4" opacity=".06"/></pattern></defs>
+      <!-- Architectural blueprint / plan style -->
+      <!-- Large background plan lines -->
+      <g stroke="#1C2340" stroke-width=".4" opacity=".08">
+        <line x1="0" y1="100" x2="720" y2="100"/><line x1="0" y1="200" x2="720" y2="200"/>
+        <line x1="0" y1="300" x2="720" y2="300"/><line x1="0" y1="400" x2="720" y2="400"/>
+        <line x1="0" y1="500" x2="720" y2="500"/>
+        <line x1="100" y1="0" x2="100" y2="560"/><line x1="200" y1="0" x2="200" y2="560"/>
+        <line x1="300" y1="0" x2="300" y2="560"/><line x1="400" y1="0" x2="400" y2="560"/>
+        <line x1="500" y1="0" x2="500" y2="560"/><line x1="600" y1="0" x2="600" y2="560"/>
+      </g>
+      <!-- Building plan outline -->
+      <rect x="80" y="80" width="560" height="400" fill="none" stroke="#1C2340" stroke-width="1.5" opacity=".15"/>
+      <!-- Inner rooms -->
+      <rect x="80" y="80" width="240" height="200" fill="none" stroke="#1C2340" stroke-width="1" opacity=".12"/>
+      <rect x="320" y="80" width="320" height="200" fill="none" stroke="#1C2340" stroke-width="1" opacity=".12"/>
+      <rect x="80" y="280" width="160" height="200" fill="none" stroke="#1C2340" stroke-width="1" opacity=".12"/>
+      <rect x="240" y="280" width="200" height="200" fill="none" stroke="#1C2340" stroke-width="1" opacity=".12"/>
+      <rect x="440" y="280" width="200" height="200" fill="none" stroke="#1C2340" stroke-width="1" opacity=".12"/>
+      <!-- Dimension lines -->
+      <g stroke="#8B7D5C" stroke-width=".8" opacity=".4">
+        <line x1="80" y1="60" x2="640" y2="60"/>
+        <line x1="80" y1="55" x2="80" y2="65"/>
+        <line x1="640" y1="55" x2="640" y2="65"/>
+        <line x1="60" y1="80" x2="60" y2="480"/>
+        <line x1="55" y1="80" x2="65" y2="80"/>
+        <line x1="55" y1="480" x2="65" y2="480"/>
+      </g>
+      <!-- Room labels -->
+      <g font-family="'Raleway',sans-serif" font-size="9" fill="#1C2340" opacity=".25" font-weight="600" letter-spacing="2" text-anchor="middle">
+        <text x="200" y="185">SALON</text>
+        <text x="480" y="185">SYPIALNIA</text>
+        <text x="160" y="385">ŁAZIENKA</text>
+        <text x="340" y="385">KUCHNIA</text>
+        <text x="540" y="385">GABINET</text>
+      </g>
+      <!-- Modern building 3D perspective -->
+      <g transform="translate(100,60)" opacity=".8">
+        <!-- Main box -->
+        <rect x="200" y="120" width="280" height="200" fill="#E8E5E0" stroke="#8B7D5C" stroke-width=".8" opacity=".5"/>
+        <!-- Top face -->
+        <polygon points="200,120 240,80 520,80 480,120" fill="#F0EDE8" stroke="#8B7D5C" stroke-width=".8" opacity=".5"/>
+        <!-- Right face -->
+        <polygon points="480,120 520,80 520,280 480,320" fill="#D8D5D0" stroke="#8B7D5C" stroke-width=".8" opacity=".5"/>
+        <!-- Windows -->
+        <g fill="rgba(200,220,240,.4)" stroke="#8B7D5C" stroke-width=".5" opacity=".6">
+          <rect x="220" y="140" width="50" height="60"/><rect x="290" y="140" width="50" height="60"/>
+          <rect x="360" y="140" width="50" height="60"/><rect x="430" y="140" width="40" height="60"/>
+          <rect x="220" y="220" width="50" height="60"/><rect x="290" y="220" width="50" height="60"/>
+          <rect x="360" y="220" width="50" height="60"/><rect x="430" y="220" width="40" height="60"/>
+        </g>
+        <!-- Entrance -->
+        <rect x="310" y="270" width="60" height="50" fill="rgba(200,220,240,.3)" stroke="#8B7D5C" stroke-width=".5" opacity=".6"/>
+        <!-- Khaki accent top -->
+        <line x1="200" y1="120" x2="480" y2="120" stroke="#8B7D5C" stroke-width="2" opacity=".5"/>
+      </g>
+      <!-- Compass rose -->
+      <g transform="translate(650,50)">
+        <circle cx="0" cy="0" r="22" fill="none" stroke="#1C2340" stroke-width=".8" opacity=".15"/>
+        <polygon points="0,-18 -4,-4 0,-8 4,-4" fill="#8B7D5C" opacity=".5"/>
+        <polygon points="0,18 -4,4 0,8 4,4" fill="#1C2340" opacity=".2"/>
+        <line x1="-14" y1="0" x2="14" y2="0" stroke="#1C2340" stroke-width=".8" opacity=".2"/>
+        <text x="0" y="-22" font-family="sans-serif" font-size="8" fill="#1C2340" opacity=".3" text-anchor="middle" dy="-2">N</text>
+      </g>
+    </svg>
+    <div class="svc-img-overlay"></div>
+    <div class="svc-cat-tag">
+      <svg viewBox="0 0 24 24"><path d="M15 11V5l-3-3-3 3v2H3v14h18V11h-6zm-8 8H5v-2h2v2zm0-4H5v-2h2v2zm0-4H5V9h2v2zm6 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V9h2v2zm0-4h-2V5h2v2zm6 12h-2v-2h2v2zm0-4h-2v-2h2v2z"/></svg>
+      Projekty Deweloperskie
     </div>
-    <div class="sp-visual">
-      <svg viewBox="0 0 720 520" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%;min-height:520px">
-        <rect width="720" height="520" fill="#0d0f0b"/>
-        <!-- Night city residential project -->
-        <rect width="720" height="520" fill="url(#fg2)"/>
-        <defs><pattern id="fg2" width="60" height="60" patternUnits="userSpaceOnUse"><path d="M60 0H0V60" fill="none" stroke="#B89C6E" stroke-width=".4" opacity=".25"/></pattern></defs>
-        <!-- Sky gradient -->
-        <rect width="720" height="340" fill="#0a0d08"/>
-        <!-- Moon -->
-        <circle cx="620" cy="70" r="35" fill="#1a1f14"/>
-        <circle cx="635" cy="60" r="32" fill="#0a0d08"/>
-        <!-- Stars -->
-        <g fill="#D4B88A" opacity=".5">
-          <circle cx="80" cy="50" r="1.2"/><circle cx="200" cy="30" r="1"/><circle cx="320" cy="80" r="1.5"/>
-          <circle cx="450" cy="40" r="1"/><circle cx="550" cy="90" r="1.2"/><circle cx="150" cy="120" r="1"/>
-          <circle cx="380" cy="25" r="1.3"/>
-        </g>
-        <!-- Main residential tower -->
-        <rect x="260" y="60" width="200" height="460" fill="#121510"/>
-        <rect x="260" y="55" width="200" height="7" fill="#B89C6E" opacity=".6"/>
-        <!-- Facade grid -->
-        <g stroke="#B89C6E" stroke-width=".4" opacity=".15">
-          <line x1="300" y1="60" x2="300" y2="520"/><line x1="340" y1="60" x2="340" y2="520"/>
-          <line x1="380" y1="60" x2="380" y2="520"/><line x1="420" y1="60" x2="420" y2="520"/>
-          <line x1="260" y1="110" x2="460" y2="110"/><line x1="260" y1="160" x2="460" y2="160"/>
-          <line x1="260" y1="210" x2="460" y2="210"/><line x1="260" y1="260" x2="460" y2="260"/>
-          <line x1="260" y1="310" x2="460" y2="310"/><line x1="260" y1="360" x2="460" y2="360"/>
-          <line x1="260" y1="410" x2="460" y2="410"/>
-        </g>
-        <!-- Warm-lit windows -->
-        <g fill="#D4B88A">
-          <rect x="270" y="70" width="25" height="30" opacity=".35"/>
-          <rect x="315" y="120" width="25" height="30" opacity=".4"/>
-          <rect x="365" y="70" width="25" height="30" opacity=".3"/>
-          <rect x="415" y="170" width="25" height="30" opacity=".45"/>
-          <rect x="270" y="220" width="25" height="30" opacity=".35"/>
-          <rect x="415" y="70" width="25" height="30" opacity=".3"/>
-          <rect x="365" y="270" width="25" height="30" opacity=".4"/>
-          <rect x="270" y="320" width="25" height="30" opacity=".3"/>
-          <rect x="315" y="370" width="25" height="30" opacity=".35"/>
-          <rect x="415" y="320" width="25" height="30" opacity=".4"/>
-          <rect x="365" y="420" width="25" height="30" opacity=".3"/>
-          <rect x="270" y="420" width="25" height="30" opacity=".35"/>
-        </g>
-        <!-- Side buildings -->
-        <rect x="60" y="200" width="140" height="320" fill="#0e1009"/>
-        <rect x="60" y="196" width="140" height="5" fill="#8A7250" opacity=".4"/>
-        <g fill="#B89C6E" opacity=".2">
-          <rect x="75" y="210" width="22" height="16"/><rect x="108" y="210" width="22" height="16"/>
-          <rect x="141" y="210" width="22" height="16"/>
-          <rect x="75" y="240" width="22" height="16"/><rect x="141" y="240" width="22" height="16"/>
-        </g>
-        <rect x="520" y="160" width="160" height="360" fill="#0e1009"/>
-        <rect x="520" y="156" width="160" height="5" fill="#8A7250" opacity=".4"/>
-        <g fill="#B89C6E" opacity=".2">
-          <rect x="534" y="170" width="22" height="16"/><rect x="567" y="170" width="22" height="16"/>
-          <rect x="600" y="170" width="22" height="16"/><rect x="633" y="170" width="22" height="16"/>
-          <rect x="534" y="200" width="22" height="16"/><rect x="600" y="200" width="22" height="16"/>
-        </g>
-        <!-- Trees -->
-        <rect x="190" y="380" width="5" height="140" fill="#0a0d08"/>
-        <ellipse cx="192" cy="356" rx="26" ry="34" fill="#0e1209"/>
-        <rect x="500" y="400" width="5" height="120" fill="#0a0d08"/>
-        <ellipse cx="502" cy="376" rx="22" ry="30" fill="#0e1209"/>
-        <!-- Ground -->
-        <rect x="0" y="500" width="720" height="20" fill="#080a07"/>
-        <line x1="0" y1="500" x2="720" y2="500" stroke="#B89C6E" stroke-width="1" opacity=".25"/>
-        <!-- Water reflection -->
-        <rect x="0" y="490" width="720" height="30" fill="#080a07" opacity=".9"/>
-        <g opacity=".1" fill="#B89C6E">
-          <rect x="260" y="502" width="200" height="18"/>
-        </g>
-      </svg>
-      <div class="sp-visual-overlay"></div>
-      <div class="sp-icon-badge">
-        <svg viewBox="0 0 24 24"><path d="M15 11V5l-3-3-3 3v2H3v14h18V11h-6zm-8 8H5v-2h2v2zm0-4H5v-2h2v2zm0-4H5V9h2v2zm6 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V9h2v2zm0-4h-2V5h2v2zm6 12h-2v-2h2v2zm0-4h-2v-2h2v2z"/></svg>
-        <span class="sp-icon-label">Projekty Deweloperskie</span>
-      </div>
-    </div>
+    <div class="svc-num-bg">02</div>
   </div>
+</div>
 
-  <!-- PANEL 3: Ekspresowa Sprzedaż -->
-  <div class="service-panel" id="ekspresowa">
-    <div class="sp-visual">
-      <svg viewBox="0 0 720 520" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%;min-height:520px">
-        <rect width="720" height="520" fill="#1a1208"/>
-        <rect width="720" height="520" fill="url(#fg3)"/>
-        <defs><pattern id="fg3" width="60" height="60" patternUnits="userSpaceOnUse"><path d="M60 0H0V60" fill="none" stroke="#B89C6E" stroke-width=".4" opacity=".3"/></pattern></defs>
-        <!-- Modern villa aerial view / warm tones -->
-        <ellipse cx="360" cy="260" rx="340" ry="230" fill="rgba(184,156,110,.03)"/>
-        <!-- Villa top-view-ish perspective -->
-        <rect x="100" y="100" width="520" height="320" rx="4" fill="#1e1610"/>
-        <rect x="100" y="96" width="520" height="6" fill="#B89C6E" opacity=".5"/>
-        <!-- Building sections -->
-        <rect x="120" y="116" width="240" height="180" fill="#221a12" stroke="#B89C6E" stroke-width=".5" opacity=".4"/>
-        <rect x="380" y="116" width="220" height="120" fill="#221a12" stroke="#B89C6E" stroke-width=".5" opacity=".4"/>
-        <rect x="380" y="248" width="220" height="48" fill="#281e14" stroke="#B89C6E" stroke-width=".5" opacity=".3"/>
-        <!-- Large windows warm glow -->
-        <rect x="130" y="126" width="100" height="80" fill="rgba(212,184,138,.18)" stroke="#B89C6E" stroke-width=".5" opacity=".5"/>
-        <rect x="248" y="126" width="100" height="80" fill="rgba(212,184,138,.15)" stroke="#B89C6E" stroke-width=".5" opacity=".4"/>
-        <rect x="390" y="126" width="90" height="80" fill="rgba(212,184,138,.2)" stroke="#B89C6E" stroke-width=".5" opacity=".5"/>
-        <rect x="498" y="126" width="90" height="80" fill="rgba(212,184,138,.18)" stroke="#B89C6E" stroke-width=".5" opacity=".4"/>
-        <!-- Pool -->
-        <rect x="120" y="316" width="200" height="80" rx="6" fill="rgba(80,140,160,.15)" stroke="#B89C6E" stroke-width=".6" opacity=".4"/>
-        <line x1="120" y1="356" x2="320" y2="356" stroke="#B89C6E" stroke-width=".4" opacity=".2"/>
-        <!-- Terrace -->
-        <rect x="330" y="316" width="270" height="80" fill="#281e14"/>
-        <!-- Outdoor furniture dots -->
-        <g fill="#B89C6E" opacity=".3">
-          <circle cx="360" cy="350" r="8"/><circle cx="390" cy="350" r="8"/>
-          <circle cx="420" cy="370" r="6"/><circle cx="450" cy="370" r="6"/><circle cx="480" cy="370" r="6"/>
-        </g>
-        <!-- Trees around -->
-        <g fill="#B89C6E" opacity=".15">
-          <circle cx="80" cy="160" r="30"/><circle cx="80" cy="260" r="25"/>
-          <circle cx="640" cy="140" r="28"/><circle cx="640" cy="280" r="22"/>
-          <circle cx="200" cy="470" r="26"/><circle cx="400" cy="470" r="20"/>
-          <circle cx="550" cy="480" r="18"/>
-        </g>
-        <!-- Driveway -->
-        <rect x="290" y="418" width="60" height="100" fill="#1a1208"/>
-        <line x1="320" y1="420" x2="320" y2="520" stroke="#B89C6E" stroke-width=".5" stroke-dasharray="8,8" opacity=".2"/>
-        <!-- Gold perimeter -->
-        <rect x="100" y="100" width="520" height="320" rx="4" fill="none" stroke="#B89C6E" stroke-width="1" opacity=".25"/>
-        <!-- Clock / speed element -->
-        <g transform="translate(600,420)">
-          <circle cx="0" cy="0" r="38" fill="rgba(15,14,12,.8)" stroke="rgba(184,156,110,.35)" stroke-width="1"/>
-          <text x="0" y="-6" font-family="'Outfit',sans-serif" font-size="8" fill="rgba(184,156,110,.7)" text-anchor="middle" letter-spacing="1">SPRZEDAMY W</text>
-          <text x="0" y="12" font-family="'Cormorant Garamond',serif" font-size="18" fill="#D4B88A" text-anchor="middle">30 dni</text>
-        </g>
-      </svg>
-      <div class="sp-visual-overlay"></div>
-      <div class="sp-icon-badge">
-        <svg viewBox="0 0 24 24"><path d="M13 2.05V4.05C17.39 4.59 20.5 8.58 19.96 12.97C19.5 16.61 16.64 19.5 13 19.93V21.93C18.5 21.38 22.5 16.5 21.95 11C21.5 6.25 17.73 2.5 13 2.05M11 2.06C9.05 2.25 7.19 3 5.67 4.26L7.1 5.74C8.22 4.84 9.57 4.26 11 4.06V2.06M4.26 5.67C3 7.19 2.25 9.04 2.05 11H4.05C4.24 9.58 4.8 8.23 5.69 7.1L4.26 5.67M2.06 13C2.26 14.96 3.03 16.81 4.27 18.33L5.69 16.9C4.81 15.77 4.24 14.42 4.06 13H2.06M7.1 18.37L5.67 19.74C7.18 21 9.04 21.79 11 22V20C9.58 19.82 8.23 19.25 7.1 18.37M12 7L8 11H11V17H13V11H16L12 7Z"/></svg>
-        <span class="sp-icon-label">Ekspresowa Sprzedaż</span>
-      </div>
+<!-- ══ SEKCJA 3: EKSPRESOWA SPRZEDAŻ ══ -->
+<div class="svc-section" id="ekspres">
+  <div class="svc-img">
+    <svg viewBox="0 0 720 560" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%;min-height:560px" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="720" height="560" fill="#1C2340"/>
+      <rect width="720" height="560" fill="url(#gi3)"/>
+      <defs><pattern id="gi3" width="60" height="60" patternUnits="userSpaceOnUse"><path d="M60 0H0V60" fill="none" stroke="#8B7D5C" stroke-width=".5" opacity=".2"/></pattern></defs>
+      <!-- Dark dramatic night exterior -->
+      <rect x="0" y="0" width="720" height="360" fill="#161C30"/>
+      <!-- Stars -->
+      <g fill="#8B7D5C" opacity=".4">
+        <circle cx="80"  cy="40"  r="1.2"/><circle cx="200" cy="20"  r="1"/>
+        <circle cx="340" cy="70"  r="1.5"/><circle cx="520" cy="30"  r="1"/>
+        <circle cx="640" cy="60"  r="1.2"/>
+      </g>
+      <!-- Villa exterior at night -->
+      <rect x="100" y="140" width="520" height="260" fill="#1E2440"/>
+      <rect x="100" y="136" width="520" height="5" fill="#8B7D5C" opacity=".55"/>
+      <!-- Large illuminated windows (warm glow) -->
+      <rect x="130" y="160" width="150" height="110" fill="rgba(200,180,140,.12)" stroke="#8B7D5C" stroke-width=".8" opacity=".4"/>
+      <rect x="300" y="160" width="200" height="110" fill="rgba(200,180,140,.18)" stroke="#8B7D5C" stroke-width=".8" opacity=".5"/>
+      <rect x="520" y="160" width="80"  height="110" fill="rgba(200,180,140,.12)" stroke="#8B7D5C" stroke-width=".8" opacity=".4"/>
+      <!-- Inner light glow -->
+      <radialGradient id="wg1" cx="205" cy="215" r="80" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#A8966F" stop-opacity=".15"/>
+        <stop offset="100%" stop-color="#A8966F" stop-opacity="0"/>
+      </radialGradient>
+      <ellipse cx="205" cy="215" rx="90" ry="60" fill="url(#wg1)"/>
+      <radialGradient id="wg2" cx="400" cy="215" r="110" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#A8966F" stop-opacity=".2"/>
+        <stop offset="100%" stop-color="#A8966F" stop-opacity="0"/>
+      </radialGradient>
+      <ellipse cx="400" cy="215" rx="120" ry="70" fill="url(#wg2)"/>
+      <!-- Upper floor -->
+      <rect x="160" y="280" width="400" height="120" fill="#1A2038"/>
+      <rect x="160" y="277" width="400" height="4" fill="#8B7D5C" opacity=".3"/>
+      <!-- Upper windows -->
+      <g fill="rgba(200,180,140,.1)" stroke="#8B7D5C" stroke-width=".6" opacity=".4">
+        <rect x="180" y="292" width="70" height="50"/>
+        <rect x="270" y="292" width="70" height="50"/>
+        <rect x="360" y="292" width="70" height="50"/>
+        <rect x="450" y="292" width="70" height="50"/>
+      </g>
+      <!-- Entrance door -->
+      <rect x="310" y="340" width="100" height="60" fill="rgba(200,180,140,.08)" stroke="#8B7D5C" stroke-width=".8" opacity=".4"/>
+      <!-- Ground / driveway -->
+      <rect x="0" y="400" width="720" height="160" fill="#14192C"/>
+      <line x1="0" y1="400" x2="720" y2="400" stroke="#8B7D5C" stroke-width="1.5" opacity=".25"/>
+      <!-- Driveway lights -->
+      <g fill="#A8966F" opacity=".6">
+        <circle cx="250" cy="430" r="3"/>
+        <circle cx="360" cy="430" r="3"/>
+        <circle cx="470" cy="430" r="3"/>
+      </g>
+      <!-- Glow under lights -->
+      <g fill="#A8966F" opacity=".06">
+        <circle cx="250" cy="435" r="20"/>
+        <circle cx="360" cy="435" r="20"/>
+        <circle cx="470" cy="435" r="20"/>
+      </g>
+      <!-- Trees dark -->
+      <ellipse cx="70"  cy="340" rx="44" ry="66" fill="#12172A"/>
+      <rect    x="66"   y="398"  width="8" height="162" fill="#0E1220"/>
+      <ellipse cx="652" cy="320" rx="40" ry="60" fill="#12172A"/>
+      <rect    x="648"  y="378"  width="8" height="182" fill="#0E1220"/>
+      <!-- "30 days" badge -->
+      <g transform="translate(580,460)">
+        <circle cx="0" cy="0" r="50" fill="rgba(28,35,64,.85)" stroke="#8B7D5C" stroke-width="1" opacity=".8"/>
+        <text x="0" y="-10" font-family="'Raleway',sans-serif" font-size="8" font-weight="700" fill="#8B7D5C" text-anchor="middle" letter-spacing="1" opacity=".8">SPRZEDAMY W</text>
+        <text x="0" y="14" font-family="'Lora',serif" font-size="22" font-style="italic" fill="#A8966F" text-anchor="middle">30 dni</text>
+      </g>
+    </svg>
+    <div class="svc-img-overlay"></div>
+    <div class="svc-cat-tag">
+      <svg viewBox="0 0 24 24"><path d="M13 2.05V4.05C17.39 4.59 20.5 8.58 19.96 12.97C19.5 16.61 16.64 19.5 13 19.93V21.93C18.5 21.38 22.5 16.5 21.95 11C21.5 6.25 17.73 2.5 13 2.05M11 2.06C9.05 2.25 7.19 3 5.67 4.26L7.1 5.74C8.22 4.84 9.57 4.26 11 4.06V2.06M4.26 5.67C3 7.19 2.25 9.04 2.05 11H4.05C4.24 9.58 4.8 8.23 5.69 7.1L4.26 5.67M2.06 13C2.26 14.96 3.03 16.81 4.27 18.33L5.69 16.9C4.81 15.77 4.24 14.42 4.06 13H2.06M7.1 18.37L5.67 19.74C7.18 21 9.04 21.79 11 22V20C9.58 19.82 8.23 19.25 7.1 18.37M12 7L8 11H11V17H13V11H16L12 7Z"/></svg>
+      Ekspresowa Sprzedaż
     </div>
-    <div class="sp-body reveal-r">
-      <div class="sp-num">03</div>
-      <h2 class="sp-title">Ekspresowa<br><em>Sprzedaż</em></h2>
-      <p class="sp-desc">Sprzedamy Twoją nieruchomość w 30 dni lub krócej. Szybka wycena, intensywny marketing, gotowa baza aktywnych kupujących. Gwarancja skuteczności bez zbędnego czekania.</p>
-      <div class="sp-agents">
-        <div class="agent-chip">
-          <div class="agent-avatar">
-            <svg viewBox="0 0 44 44" fill="none"><rect width="44" height="44" fill="#1E1C18"/><ellipse cx="22" cy="17" rx="10" ry="11" fill="#2a2620"/><path d="M4 44 Q6 30 14 26 Q22 22 30 26 Q38 30 40 44Z" fill="#242018"/><ellipse cx="22" cy="15" rx="7" ry="8" fill="#322e28"/></svg>
-          </div>
-          <div>
-            <div class="agent-chip-name">Rafał Budnik</div>
-            <div class="agent-chip-contact">
-              <a href="tel:+48605080092">+48 605 080 092</a><br>
-              <a href="mailto:rafal@meridianestate.pl">rafal@meridianestate.pl</a>
-            </div>
-          </div>
+    <div class="svc-num-bg">03</div>
+  </div>
+  <div class="svc-body rv-r">
+    <div class="svc-label">Dział III</div>
+    <h2 class="svc-title">Ekspresowa<br><em>Sprzedaż</em></h2>
+    <p class="svc-desc">Sprzedamy Twoją nieruchomość w 30 dni lub szybciej. Posiadamy aktywną bazę kupujących i sprawdzony system intensywnego marketingu. Szybko, skutecznie, bez kompromisów cenowych.</p>
+    <div class="agents-row">
+      <div class="agent-card">
+        <div class="agent-ava">
+          <svg viewBox="0 0 48 48" fill="none"><rect width="48" height="48" fill="#DDD9D4"/><ellipse cx="24" cy="19" rx="10" ry="11" fill="#C8C4BC"/><path d="M6 48Q8 34 16 30Q24 26 32 30Q40 34 42 48Z" fill="#C0BCB4"/><ellipse cx="24" cy="17" rx="7" ry="8" fill="#D8D4CE"/></svg>
+        </div>
+        <div>
+          <div class="agent-name">Rafał Budnik</div>
+          <a class="agent-phone" href="tel:+48605080092">+48 605 080 092</a>
+          <a class="agent-mail"  href="mailto:rafal@nexus.pl">rafal@nexus.pl</a>
         </div>
       </div>
-      <a href="#kontakt" class="sp-cta">Zobacz szczegóły</a>
     </div>
+    <a href="#kontakt" class="svc-link">Zobacz szczegóły</a>
   </div>
+</div>
 
-  <!-- PANEL 4: Kredyty & Ubezpieczenia -->
-  <div class="service-panel" id="kredyty">
-    <div class="sp-body reveal-l">
-      <div class="sp-num">04</div>
-      <h2 class="sp-title">Kredyty<br><em>&amp; Ubezpieczenia</em></h2>
-      <p class="sp-desc">Niezależne doradztwo kredytowe — porównujemy oferty ponad 20 banków i dobieramy optymalne warunki finansowania. Pomagamy uzyskać kredyt nawet w trudnych przypadkach.</p>
-      <div class="sp-agents">
-        <div class="agent-chip">
-          <div class="agent-avatar">
-            <svg viewBox="0 0 44 44" fill="none"><rect width="44" height="44" fill="#1C1822"/><ellipse cx="22" cy="17" rx="10" ry="11" fill="#26222e"/><path d="M4 44 Q6 30 14 26 Q22 22 30 26 Q38 30 40 44Z" fill="#201c28"/><ellipse cx="22" cy="15" rx="7" ry="8" fill="#2e2a38"/></svg>
-          </div>
-          <div>
-            <div class="agent-chip-name">Marta Wyciszkiewicz</div>
-            <div class="agent-chip-contact">
-              <a href="tel:+48783648288">+48 783 648 288</a><br>
-              <a href="mailto:marta@meridianestate.pl">marta@meridianestate.pl</a>
-            </div>
-          </div>
+<!-- ══ SEKCJA 4: KREDYTY ══ -->
+<div class="svc-section" id="kredyty">
+  <div class="svc-body rv-l">
+    <div class="svc-label">Dział IV</div>
+    <h2 class="svc-title">Kredyty<br><em>& Ubezpieczenia</em></h2>
+    <p class="svc-desc">Niezależne doradztwo kredytowe — porównujemy oferty ponad 20 banków. Znajdziemy optymalne finansowanie dopasowane do Twojej sytuacji. Bezpłatna konsultacja, zero ukrytych opłat.</p>
+    <div class="agents-row">
+      <div class="agent-card">
+        <div class="agent-ava">
+          <svg viewBox="0 0 48 48" fill="none"><rect width="48" height="48" fill="#E0DCE8"/><ellipse cx="24" cy="19" rx="10" ry="11" fill="#CCCAD8"/><path d="M6 48Q8 34 16 30Q24 26 32 30Q40 34 42 48Z" fill="#C4C0D0"/><ellipse cx="24" cy="17" rx="7" ry="8" fill="#D4D2E0"/></svg>
+        </div>
+        <div>
+          <div class="agent-name">Marta Wyciszkiewicz</div>
+          <a class="agent-phone" href="tel:+48783648288">+48 783 648 288</a>
+          <a class="agent-mail"  href="mailto:marta@nexus.pl">marta@nexus.pl</a>
         </div>
       </div>
-      <a href="#kontakt" class="sp-cta">Zobacz szczegóły</a>
     </div>
-    <div class="sp-visual">
-      <svg viewBox="0 0 720 520" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%;min-height:520px">
-        <rect width="720" height="520" fill="#10101a"/>
-        <rect width="720" height="520" fill="url(#fg4)"/>
-        <defs><pattern id="fg4" width="60" height="60" patternUnits="userSpaceOnUse"><path d="M60 0H0V60" fill="none" stroke="#B89C6E" stroke-width=".4" opacity=".25"/></pattern></defs>
-        <!-- Abstract financial / key illustration -->
-        <!-- Big decorative circle -->
-        <circle cx="360" cy="260" r="200" fill="none" stroke="#B89C6E" stroke-width=".8" opacity=".12"/>
-        <circle cx="360" cy="260" r="160" fill="none" stroke="#B89C6E" stroke-width=".5" opacity=".1"/>
-        <circle cx="360" cy="260" r="100" fill="rgba(184,156,110,.04)" stroke="#B89C6E" stroke-width=".8" opacity=".2"/>
-        <!-- House key illustration -->
-        <g transform="translate(280,160)">
-          <!-- Key bow -->
-          <circle cx="80" cy="60" r="50" fill="none" stroke="#B89C6E" stroke-width="5" opacity=".45"/>
-          <circle cx="80" cy="60" r="32" fill="none" stroke="#B89C6E" stroke-width="2" opacity=".25"/>
-          <circle cx="80" cy="60" r="14" fill="#B89C6E" opacity=".3"/>
-          <!-- Key blade -->
-          <rect x="116" y="56" width="170" height="8" rx="4" fill="#B89C6E" opacity=".4"/>
-          <!-- Key teeth -->
-          <rect x="170" y="64" width="10" height="22" rx="2" fill="#B89C6E" opacity=".4"/>
-          <rect x="200" y="64" width="10" height="15" rx="2" fill="#B89C6E" opacity=".4"/>
-          <rect x="230" y="64" width="10" height="20" rx="2" fill="#B89C6E" opacity=".4"/>
-          <rect x="255" y="64" width="10" height="12" rx="2" fill="#B89C6E" opacity=".4"/>
-        </g>
-        <!-- Percentage symbols -->
-        <g font-family="'Cormorant Garamond',serif" fill="#B89C6E" opacity=".12" font-size="120">
-          <text x="60" y="220">%</text>
-          <text x="480" y="420">%</text>
-        </g>
-        <!-- Bank logos / labels -->
-        <g fill="none" stroke="#B89C6E" stroke-width=".6" opacity=".2">
-          <rect x="100" y="350" width="90" height="50" rx="3"/>
-          <rect x="210" y="360" width="90" height="50" rx="3"/>
-          <rect x="320" y="370" width="90" height="50" rx="3"/>
-          <rect x="430" y="360" width="90" height="50" rx="3"/>
-          <rect x="540" y="350" width="90" height="50" rx="3"/>
-        </g>
-        <g font-family="'Outfit',sans-serif" font-size="9" fill="#B89C6E" opacity=".3" text-anchor="middle" letter-spacing="1">
-          <text x="145" y="380">PKO BP</text>
-          <text x="255" y="390">PEKAO</text>
-          <text x="365" y="400">ING</text>
-          <text x="475" y="390">mBank</text>
-          <text x="585" y="380">SANTANDER</text>
-        </g>
-        <!-- Star ratings -->
-        <g fill="#D4B88A" opacity=".5">
-          <text x="230" y="260" font-family="serif" font-size="24">★★★★★</text>
-        </g>
-        <text x="360" y="290" font-family="'Cormorant Garamond',serif" font-size="13" fill="rgba(184,156,110,.5)" text-anchor="middle" letter-spacing="3">20+ BANKÓW</text>
-      </svg>
-      <div class="sp-visual-overlay"></div>
-      <div class="sp-icon-badge">
-        <svg viewBox="0 0 24 24"><path d="M11.5 2C6.81 2 3 5.81 3 10.5S6.81 19 11.5 19h.5v3c4.86-2.34 8-7 8-11.5C20 5.81 16.19 2 11.5 2zm1 14.5h-2v-2h2v2zm0-4h-2c0-3.25 3-3 3-5 0-1.1-.9-2-2-2s-2 .9-2 2h-2c0-2.21 1.79-4 4-4s4 1.79 4 4c0 2.5-3 2.75-3 5z"/></svg>
-        <span class="sp-icon-label">Kredyty & Ubezpieczenia</span>
-      </div>
-    </div>
+    <a href="#kontakt" class="svc-link">Zobacz szczegóły</a>
   </div>
+  <div class="svc-img">
+    <svg viewBox="0 0 720 560" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%;min-height:560px" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="720" height="560" fill="#F2F0EC"/>
+      <rect width="720" height="560" fill="url(#gi4)"/>
+      <defs><pattern id="gi4" width="60" height="60" patternUnits="userSpaceOnUse"><path d="M60 0H0V60" fill="none" stroke="#1C2340" stroke-width=".4" opacity=".07"/></pattern></defs>
+      <!-- Clean finance/key visual -->
+      <!-- Big concentric circles -->
+      <circle cx="360" cy="280" r="220" fill="none" stroke="#1C2340" stroke-width=".8" opacity=".06"/>
+      <circle cx="360" cy="280" r="170" fill="none" stroke="#1C2340" stroke-width=".6" opacity=".06"/>
+      <circle cx="360" cy="280" r="100" fill="rgba(139,125,92,.04)" stroke="#8B7D5C" stroke-width=".8" opacity=".2"/>
+      <!-- House key -->
+      <g transform="translate(200,200)" opacity=".7">
+        <circle cx="80" cy="60" r="52" fill="none" stroke="#1C2340" stroke-width="4" opacity=".2"/>
+        <circle cx="80" cy="60" r="34" fill="none" stroke="#1C2340" stroke-width="2" opacity=".15"/>
+        <circle cx="80" cy="60" r="16" fill="#8B7D5C" opacity=".2"/>
+        <rect x="118" y="56" width="185" height="8" rx="4" fill="#1C2340" opacity=".2"/>
+        <rect x="176" y="64" width="12" height="24" rx="2" fill="#1C2340" opacity=".2"/>
+        <rect x="208" y="64" width="12" height="18" rx="2" fill="#1C2340" opacity=".2"/>
+        <rect x="240" y="64" width="12" height="22" rx="2" fill="#1C2340" opacity=".2"/>
+        <rect x="268" y="64" width="12" height="14" rx="2" fill="#1C2340" opacity=".2"/>
+      </g>
+      <!-- Bank cards stacked -->
+      <g transform="translate(160,350)">
+        <rect x="10" y="10" width="200" height="120" rx="8" fill="#1C2340" opacity=".12"/>
+        <rect x="5"  y="5"  width="200" height="120" rx="8" fill="#252D4A" opacity=".1"/>
+        <rect x="0"  y="0"  width="200" height="120" rx="8" fill="#2F3860" opacity=".12" stroke="#8B7D5C" stroke-width=".8" opacity=".3"/>
+        <rect x="0"  y="30" width="200" height="20"  fill="#8B7D5C" opacity=".12"/>
+        <rect x="12" y="65" width="50"  height="35"  rx="4" fill="#8B7D5C" opacity=".2"/>
+        <text x="100" y="100" font-family="'Raleway',sans-serif" font-size="8" fill="#1C2340" opacity=".2" font-weight="700" letter-spacing="3">•••• •••• •••• 2024</text>
+      </g>
+      <!-- Percentage -->
+      <text x="430" y="200" font-family="'Lora',serif" font-size="140" fill="#1C2340" opacity=".04" font-style="italic">%</text>
+      <!-- Bank names grid -->
+      <g font-family="'Raleway',sans-serif" font-size="9" fill="#1C2340" opacity=".2" font-weight="700" letter-spacing="2" text-anchor="middle">
+        <text x="140" y="490">PKO BP</text>
+        <text x="260" y="490">PEKAO</text>
+        <text x="370" y="490">ING</text>
+        <text x="470" y="490">mBANK</text>
+        <text x="580" y="490">SANTANDER</text>
+      </g>
+      <g stroke="#1C2340" stroke-width=".5" opacity=".08">
+        <rect x="105" y="462" width="70" height="30" rx="2"/>
+        <rect x="225" y="462" width="70" height="30" rx="2"/>
+        <rect x="335" y="462" width="70" height="30" rx="2"/>
+        <rect x="435" y="462" width="70" height="30" rx="2"/>
+        <rect x="545" y="462" width="70" height="30" rx="2"/>
+      </g>
+      <!-- Stars -->
+      <text x="260" y="360" font-family="serif" font-size="28" fill="#8B7D5C" opacity=".35">★★★★★</text>
+    </svg>
+    <div class="svc-img-overlay"></div>
+    <div class="svc-cat-tag">
+      <svg viewBox="0 0 24 24"><path d="M11.5 2C6.81 2 3 5.81 3 10.5S6.81 19 11.5 19h.5v3c4.86-2.34 8-7 8-11.5C20 5.81 16.19 2 11.5 2zm1 14.5h-2v-2h2v2zm0-4h-2c0-3.25 3-3 3-5 0-1.1-.9-2-2-2s-2 .9-2 2h-2c0-2.21 1.79-4 4-4s4 1.79 4 4c0 2.5-3 2.75-3 5z"/></svg>
+      Kredyty & Ubezpieczenia
+    </div>
+    <div class="svc-num-bg">04</div>
+  </div>
+</div>
 
-</div><!-- /services-wrap -->
-
-<!-- ── ABOUT STRIP ── -->
-<section class="about-strip" id="onas">
-  <div class="reveal-l">
-    <div class="section-tag">O nas</div>
-    <h2 class="section-h">Meridian <em>Estate</em> —<br>więcej niż agencja</h2>
-    <p class="about-desc" style="margin-top:1.5rem">Od 2009 roku budujemy zaufanie klientów, którzy wracają do nas przy każdej kolejnej transakcji. Nie jesteśmy tylko agencją — jesteśmy partnerem na całą drogę. Od pierwszej rozmowy, przez negocjacje, po klucze w dłoni.</p>
-    <ul class="about-list">
+<!-- ══ ABOUT ══ -->
+<div class="about-band" id="onas">
+  <div class="rv-l">
+    <div class="svc-label" style="color:rgba(255,255,255,.4)">O nas</div>
+    <h2 class="about-h">Nexus Estate —<br><em>więcej niż agencja</em></h2>
+    <p class="about-p">Od 2009 roku budujemy zaufanie klientów, którzy wracają do nas przy każdej kolejnej transakcji. Łączymy profesjonalizm z indywidualnym podejściem — dla nas każdy klient jest wyjątkowy.</p>
+    <ul class="about-checklist">
       <li>Transparentny proces bez ukrytych kosztów</li>
       <li>Dedykowany opiekun na każdym etapie</li>
-      <li>Profesjonalna wycena i home staging w cenie</li>
-      <li>Dostęp do ekskluzywnych ofert niepublikowanych</li>
+      <li>Home staging i fotografia w cenie usługi</li>
+      <li>Dostęp do ofert niepublikowanych publicznie</li>
       <li>Pełna obsługa prawna i notarialna</li>
     </ul>
-    <a href="#kontakt" class="btn-gold" style="margin-top:2.5rem;display:inline-block">Umów bezpłatną konsultację</a>
+    <a href="#kontakt" class="btn-solid">Umów bezpłatną konsultację</a>
   </div>
-  <div class="reveal-r" style="position:relative">
-    <svg viewBox="0 0 500 380" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%">
-      <rect width="500" height="380" fill="#1E1C18" rx="2"/>
-      <!-- Interior meeting room -->
-      <rect width="500" height="380" fill="url(#fg5)"/>
-      <defs><pattern id="fg5" width="60" height="60" patternUnits="userSpaceOnUse"><path d="M60 0H0V60" fill="none" stroke="#B89C6E" stroke-width=".5" opacity=".3"/></pattern></defs>
-      <!-- Wall -->
-      <rect x="0" y="0" width="500" height="260" fill="#1a1814"/>
-      <!-- Window -->
-      <rect x="160" y="30" width="180" height="200" fill="rgba(180,200,220,.07)" stroke="#B89C6E" stroke-width=".8" opacity=".4"/>
-      <line x1="250" y1="30" x2="250" y2="230" stroke="#B89C6E" stroke-width=".5" opacity=".25"/>
-      <line x1="160" y1="130" x2="340" y2="130" stroke="#B89C6E" stroke-width=".5" opacity=".25"/>
-      <!-- Floor -->
-      <rect x="0" y="258" width="500" height="122" fill="#161410"/>
-      <g stroke="#B89C6E" stroke-width=".3" opacity=".15">
-        <line x1="0" y1="290" x2="500" y2="290"/><line x1="0" y1="320" x2="500" y2="320"/><line x1="0" y1="350" x2="500" y2="350"/>
-        <line x1="100" y1="260" x2="100" y2="380"/><line x1="200" y1="260" x2="200" y2="380"/><line x1="300" y1="260" x2="300" y2="380"/><line x1="400" y1="260" x2="400" y2="380"/>
-      </g>
-      <!-- Conference table -->
-      <rect x="80" y="232" width="340" height="80" rx="4" fill="#201e18"/>
-      <rect x="80" y="230" width="340" height="5" rx="1" fill="#2a2620"/>
-      <!-- Gold trim on table -->
-      <rect x="80" y="310" width="340" height="2" fill="#B89C6E" opacity=".3"/>
-      <!-- Chairs -->
-      <g fill="#2a2820">
-        <rect x="100" y="188" width="50" height="44" rx="3"/>
-        <rect x="168" y="188" width="50" height="44" rx="3"/>
-        <rect x="236" y="188" width="50" height="44" rx="3"/>
-        <rect x="304" y="188" width="50" height="44" rx="3"/>
-        <rect x="100" y="315" width="50" height="44" rx="3"/>
-        <rect x="236" y="315" width="50" height="44" rx="3"/>
-        <rect x="360" y="315" width="50" height="44" rx="3"/>
-      </g>
-      <!-- Laptop on table -->
-      <rect x="200" y="242" width="60" height="38" rx="2" fill="#1a1814" stroke="#B89C6E" stroke-width=".5" opacity=".4"/>
-      <rect x="185" y="278" width="90" height="4" rx="2" fill="#1a1814"/>
-      <!-- Gold line top -->
-      <rect x="0" y="0" width="500" height="3" fill="#B89C6E" opacity=".5"/>
-    </svg>
-    <div class="about-quote">
-      <div class="about-quote-text">"Meridian to coś więcej niż agencja — to partner, któremu można zaufać."</div>
-      <div class="about-quote-author">Piotr Z. — Klient od 2018</div>
+  <div class="rv-r">
+    <div class="about-nums">
+      <div class="about-num-box">
+        <div class="about-num-val">850<small style="font-size:1.2rem">+</small></div>
+        <div class="about-num-lbl">Transakcji rocznie</div>
+      </div>
+      <div class="about-num-box">
+        <div class="about-num-val"><em style="font-family:'Lora',serif">15</em></div>
+        <div class="about-num-lbl">Lat doświadczenia</div>
+      </div>
+      <div class="about-num-box">
+        <div class="about-num-val">98<small style="font-size:1.4rem">%</small></div>
+        <div class="about-num-lbl">Zadowolonych klientów</div>
+      </div>
+      <div class="about-num-box">
+        <div class="about-num-val">4.9<small style="font-size:1rem">★</small></div>
+        <div class="about-num-lbl">Ocena Google</div>
+      </div>
+    </div>
+    <!-- Testimonial -->
+    <div style="border:1px solid rgba(255,255,255,.08);border-left:3px solid var(--khaki);padding:1.5rem;margin-top:1.5rem">
+      <p style="font-family:'Lora',serif;font-style:italic;color:rgba(255,255,255,.55);font-size:.92rem;line-height:1.7;margin-bottom:.8rem">"Nexus Estate to profesjonalizm na najwyższym poziomie. Sprzedali nasze mieszkanie w 3 tygodnie, powyżej ceny wywoławczej."</p>
+      <p style="font-size:.65rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--khaki-l)">— Piotr Z., klient od 2018</p>
     </div>
   </div>
-</section>
+</div>
 
-<!-- ── CONTACT ── -->
-<section class="contact-section" id="kontakt">
-  <div class="contact-left reveal-l">
-    <div class="section-tag">Kontakt</div>
-    <h2 class="section-h">Porozmawiajmy<br>o Twojej <em>nieruchomości</em></h2>
-    <div class="contact-info-list">
-      <div class="ci-item">
-        <label>Adres</label>
+<!-- ══ CONTACT ══ -->
+<div class="contact-section" id="kontakt">
+  <div class="contact-left rv-l">
+    <div class="svc-label">Kontakt</div>
+    <h2 class="about-h" style="color:var(--navy);margin-bottom:.5rem">Porozmawiajmy<br>o <em style="font-family:'Lora',serif;font-style:italic;color:var(--khaki)">nieruchomości</em></h2>
+    <div class="c-info-list">
+      <div class="c-info-item">
+        <label>Adres biura</label>
         <p>ul. Złota 59, 00-120 Warszawa</p>
       </div>
-      <div class="ci-item">
+      <div class="c-info-item">
         <label>Telefon główny</label>
-        <p><a href="tel:+48221234567">+48 22 123 45 67</a></p>
+        <a href="tel:+48736071824">+48 736 071 824</a>
       </div>
-      <div class="ci-item">
+      <div class="c-info-item">
         <label>E-mail</label>
-        <p><a href="mailto:biuro@meridianestate.pl">biuro@meridianestate.pl</a></p>
+        <a href="mailto:biuro@nexus.pl">biuro@nexus.pl</a>
       </div>
-      <div class="ci-item">
+      <div class="c-info-item">
         <label>Godziny pracy</label>
-        <p>Pon – Pt: 9:00 – 18:00<br>Sobota: 10:00 – 14:00</p>
+        <p>Pon – Pt:&nbsp;&nbsp;9:00 – 18:00<br>Sobota:&nbsp;&nbsp;&nbsp;10:00 – 14:00</p>
       </div>
     </div>
-    <div class="social-pills">
-      <a class="soc-pill" href="#">
+    <div class="social-row">
+      <a class="s-pill" href="#">
         <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
         Facebook
       </a>
-      <a class="soc-pill" href="#">
+      <a class="s-pill" href="#">
         <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
         Instagram
       </a>
-      <a class="soc-pill" href="#">
+      <a class="s-pill" href="#">
         <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
         LinkedIn
       </a>
     </div>
   </div>
-
-  <div class="contact-right reveal-r">
-    <div class="section-tag" style="margin-bottom:1.5rem">Wyślij zapytanie</div>
-    <div class="contact-form">
+  <div class="contact-right rv-r">
+    <div class="svc-label" style="margin-bottom:1.2rem">Wyślij zapytanie</div>
+    <div class="c-form">
       <div class="cf-row">
-        <div class="cf-group"><label>Imię i nazwisko</label><input type="text" placeholder="Jan Kowalski"></div>
-        <div class="cf-group"><label>Telefon</label><input type="tel" placeholder="+48 600 000 000"></div>
+        <div class="cf-g"><label>Imię i nazwisko</label><input type="text" placeholder="Jan Kowalski"></div>
+        <div class="cf-g"><label>Telefon</label><input type="tel" placeholder="+48 600 000 000"></div>
       </div>
-      <div class="cf-group"><label>E-mail</label><input type="email" placeholder="jan@firma.pl"></div>
-      <div class="cf-group"><label>Czego szukasz?</label>
+      <div class="cf-g"><label>E-mail</label><input type="email" placeholder="jan@firma.pl"></div>
+      <div class="cf-g">
+        <label>Temat zapytania</label>
         <select>
           <option>Biuro Nieruchomości — sprzedaż / wynajem</option>
           <option>Projekty Deweloperskie</option>
           <option>Ekspresowa Sprzedaż</option>
           <option>Kredyt hipoteczny</option>
-          <option>Inne zapytanie</option>
+          <option>Inne</option>
         </select>
       </div>
-      <div class="cf-group"><label>Wiadomość</label><textarea placeholder="Opisz krótko czego szukasz lub co chcesz sprzedać..."></textarea></div>
-      <div class="cf-group" style="display:flex;align-items:flex-start;gap:.8rem">
-        <input type="checkbox" id="rodo" style="width:auto;margin-top:3px;accent-color:var(--gold);flex-shrink:0">
-        <label for="rodo" style="font-size:.72rem;color:var(--muted);letter-spacing:0;text-transform:none;line-height:1.5">Wyrażam zgodę na przetwarzanie moich danych osobowych przez Meridian Estate Sp. z o.o. w celu odpowiedzi na zapytanie, zgodnie z RODO.</label>
+      <div class="cf-g"><label>Wiadomość</label><textarea placeholder="Opisz krótko czego szukasz lub co chcesz sprzedać..."></textarea></div>
+      <div class="rodo-row">
+        <input type="checkbox" id="rodo">
+        <label for="rodo">Wyrażam zgodę na przetwarzanie moich danych osobowych przez Nexus Estate sp. z o.o. w celu odpowiedzi na zapytanie, zgodnie z RODO.</label>
       </div>
-      <button class="btn-gold" style="width:100%;padding:1rem;font-size:.75rem" onclick="sendForm()">Wyślij zapytanie</button>
-      <div class="form-ok" id="formOk">Dziękujemy! Skontaktujemy się z Tobą w ciągu 24 godzin.</div>
+      <button class="btn-solid" style="width:100%;padding:1rem;font-size:.7rem" onclick="sendForm()">Wyślij zapytanie</button>
+      <div class="form-done" id="formDone">Dziękujemy! Skontaktujemy się z Tobą w ciągu 24 godzin roboczych.</div>
     </div>
   </div>
-</section>
+</div>
 
-<!-- ── FOOTER ── -->
+<!-- FOOTER -->
 <footer>
-  <div class="footer-inner">
+  <div class="foot-inner">
     <div>
-      <div class="footer-logo">Meridian <span>Estate</span></div>
-      <div class="footer-copy" style="margin-top:.4rem">© 2025 Meridian Estate Sp. z o.o. · Wszelkie prawa zastrzeżone</div>
+      <div class="foot-logo">NEXUS<span>.</span></div>
+      <div class="foot-copy">© 2025 Nexus Estate Sp. z o.o. · Wszelkie prawa zastrzeżone</div>
     </div>
-    <div class="footer-links">
+    <div class="foot-links">
       <a href="#">Wynajem</a>
       <a href="#">Oferty biura</a>
       <a href="#">FAQ</a>
@@ -915,61 +887,58 @@ footer{background:var(--black);border-top:1px solid var(--border);padding:3rem 2
 </footer>
 
 <script>
-/* ── Scroll nav shadow ── */
+/* Nav scroll shadow */
 window.addEventListener('scroll',()=>{
-  document.querySelector('nav').style.boxShadow=window.scrollY>60?'0 2px 30px rgba(0,0,0,.5)':'none';
+  document.getElementById('mainNav').classList.toggle('scrolled',window.scrollY>50);
 });
 
-/* ── Reveal on scroll ── */
-const revealObs=new IntersectionObserver(entries=>{
+/* Reveal */
+const io=new IntersectionObserver(entries=>{
   entries.forEach((e,i)=>{
     if(e.isIntersecting){
-      setTimeout(()=>e.target.classList.add('on'),i*80);
-      revealObs.unobserve(e.target);
+      setTimeout(()=>e.target.classList.add('on'),i*60);
+      io.unobserve(e.target);
     }
   });
 },{threshold:.1});
-document.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el=>revealObs.observe(el));
+document.querySelectorAll('.rv,.rv-l,.rv-r').forEach(el=>io.observe(el));
 
-/* ── Stats counter animation ── */
-function animateCount(el,target,suffix=''){
-  let start=0;
-  const isFloat=target%1!==0;
+/* Stats counter */
+function countUp(el,target){
+  let v=0; const isFloat=String(target).includes('.');
   const step=()=>{
-    start+=isFloat?.05:(target/60);
-    if(start>=target){el.textContent=target+(suffix?`<sup>${suffix}</sup>`:'');return;}
-    el.innerHTML=Math.floor(start)+(suffix?`<sup>${suffix}</sup>`:'');
+    v+=isFloat?.05:Math.max(1,Math.floor(target/50));
+    if(v>=target){el.textContent=target;return;}
+    el.textContent=isFloat?v.toFixed(1):Math.floor(v);
     requestAnimationFrame(step);
   };
-  requestAnimationFrame(step);
+  step();
 }
-const statsObs=new IntersectionObserver(entries=>{
+const sio=new IntersectionObserver(entries=>{
   if(entries[0].isIntersecting){
-    document.querySelectorAll('.stat-num').forEach(el=>{
-      const t=parseFloat(el.textContent);
-      const sup=el.querySelector('sup')?.textContent||'';
-      if(!isNaN(t)) animateCount(el,t,sup);
+    document.querySelectorAll('.stat-n').forEach(el=>{
+      const raw=parseFloat(el.textContent);
+      if(!isNaN(raw)) countUp(el,raw);
     });
-    statsObs.disconnect();
+    sio.disconnect();
   }
 },{threshold:.5});
-const statsBar=document.querySelector('.stats-bar');
-if(statsBar) statsObs.observe(statsBar);
+const sb=document.querySelector('.stats-band');
+if(sb)sio.observe(sb);
 
-/* ── Form ── */
+/* Form */
 function sendForm(){
-  const rodo=document.getElementById('rodo');
-  if(!rodo.checked){alert('Proszę wyrazić zgodę na przetwarzanie danych.');return;}
-  const ok=document.getElementById('formOk');
-  ok.classList.add('show');
-  setTimeout(()=>ok.classList.remove('show'),5000);
+  if(!document.getElementById('rodo').checked){alert('Proszę wyrazić zgodę na przetwarzanie danych.');return;}
+  const d=document.getElementById('formDone');
+  d.classList.add('show');
+  setTimeout(()=>d.classList.remove('show'),6000);
 }
 
-/* ── Smooth anchor scroll ── */
+/* Smooth anchors */
 document.querySelectorAll('a[href^="#"]').forEach(a=>{
   a.addEventListener('click',e=>{
-    const target=document.querySelector(a.getAttribute('href'));
-    if(target){e.preventDefault();target.scrollIntoView({behavior:'smooth'});}
+    const t=document.querySelector(a.getAttribute('href'));
+    if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});}
   });
 });
 </script>
