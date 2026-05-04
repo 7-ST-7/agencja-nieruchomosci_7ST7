@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VOLT Estate — Nieruchomości Premium</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@300;400;500;600;700&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --y:#F5C800;
+  --y2:#FFD700;
+  --y3:#E6B800;
+  --y-pale:#FFF8CC;
+  --black:#0A0A08;
+  --black2:#111110;
+  --black3:#1A1A18;
+  --black4:#222220;
+  --white:#FAFAF5;
+  --grey:#888880;
+  --border:rgba(245,200,0,0.2);
+}
+
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{font-family:'Space Grotesk',sans-serif;background:var(--black);color:var(--white);overflow-x:hidden;cursor:none}
+
+/* ─ CURSOR ─ */
+#c{position:fixed;width:10px;height:10px;background:var(--y);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .08s}
+#cr{position:fixed;width:36px;height:36px;border:1.5px solid var(--y);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all .18s ease;opacity:.5}
+body:has(a:hover) #c,body:has(button:hover) #c{transform:translate(-50%,-50%) scale(3);background:var(--y);opacity:.4}
+body:has(a:hover) #cr,body:has(button:hover) #cr{transform:translate(-50%,-50%) scale(0);opacity:0}
+
+/* ─ NOISE OVERLAY ─ */
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9997;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity:.028}
+
+/* ─ NAV ─ */
+nav{position:fixed;top:0;left:0;right:0;z-index:300;height:64px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 2.5rem;background:var(--black);
+  border-bottom:1px solid var(--border)}
+.nav-logo{font-family:'Anton',sans-serif;font-size:1.6rem;letter-spacing:.08em;color:var(--white);text-decoration:none}
+.nav-logo span{color:var(--y)}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{font-size:.65rem;font-weight:600;letter-spacing:.25em;text-transform:uppercase;color:var(--grey);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--y)}
+.nav-btn{font-family:'Anton',sans-serif;font-size:.8rem;letter-spacing:.15em;text-transform:uppercase;background:var(--y);color:var(--black);border:none;padding:.6rem 1.6rem;cursor:none;transition:all .2s;clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%)}
+.nav-btn:hover{background:var(--y2);transform:translateY(-1px)}
+
+/* ─ HERO ─ */
+.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;position:relative;overflow:hidden;padding-top:64px}
+
+/* left half */
+.hero-left{display:flex;flex-direction:column;justify-content:center;padding:5rem 3rem 5rem 2.5rem;position:relative;z-index:2}
+.hero-tag{font-size:.62rem;font-weight:600;letter-spacing:.4em;text-transform:uppercase;color:var(--y);margin-bottom:2rem;display:flex;align-items:center;gap:.8rem}
+.hero-tag::before{content:'';display:block;width:30px;height:2px;background:var(--y)}
+.hero-h1{font-family:'Anton',sans-serif;font-size:clamp(4rem,7.5vw,8rem);line-height:.88;letter-spacing:.02em;margin-bottom:2.5rem}
+.hero-h1 .y{color:var(--y);display:block}
+.hero-h1 .outline{-webkit-text-stroke:2px rgba(245,200,0,.5);color:transparent;display:block}
+.hero-sub{font-size:.95rem;font-weight:300;line-height:1.85;color:var(--grey);max-width:400px;margin-bottom:3rem}
+.hero-ctas{display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
+.btn-y{font-family:'Anton',sans-serif;font-size:.9rem;letter-spacing:.15em;text-transform:uppercase;background:var(--y);color:var(--black);border:none;padding:.9rem 2.4rem;cursor:none;transition:all .2s;text-decoration:none;display:inline-block;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%)}
+.btn-y:hover{background:var(--y2);transform:translateY(-2px)}
+.btn-ghost-y{font-size:.65rem;font-weight:600;letter-spacing:.25em;text-transform:uppercase;color:var(--y);border:1px solid rgba(245,200,0,.35);padding:.9rem 2rem;background:transparent;cursor:none;transition:all .2s;text-decoration:none;display:inline-block}
+.btn-ghost-y:hover{border-color:var(--y);background:rgba(245,200,0,.06)}
+
+/* hero stats float */
+.hero-stats{display:flex;gap:0;margin-top:4rem;padding-top:2rem;border-top:1px solid var(--border)}
+.hst{padding-right:2rem;margin-right:2rem;border-right:1px solid var(--border)}
+.hst:last-child{border-right:none}
+.hst-n{font-family:'Anton',sans-serif;font-size:2.4rem;color:var(--y);line-height:1}
+.hst-l{font-size:.6rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--grey);margin-top:.2rem}
+
+/* right half — building illustration */
+.hero-right{position:relative;background:var(--black2);overflow:hidden}
+.hero-right::before{content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(90deg,transparent,transparent 59px,rgba(245,200,0,.04) 59px,rgba(245,200,0,.04) 60px),
+             repeating-linear-gradient(0deg,transparent,transparent 59px,rgba(245,200,0,.04) 59px,rgba(245,200,0,.04) 60px)}
+.hero-right svg{width:100%;height:100%;display:block}
+
+/* floating badge */
+.hero-badge{position:absolute;bottom:3rem;left:-1.5rem;z-index:3;background:var(--y);color:var(--black);padding:1.4rem 1.8rem;clip-path:polygon(0 0,100% 0,100% 100%,12px 100%)}
+.hb-n{font-family:'Anton',sans-serif;font-size:2.5rem;line-height:1;letter-spacing:.02em}
+.hb-l{font-size:.55rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;margin-top:.2rem;opacity:.7}
+
+/* ─ MARQUEE ─ */
+.mq{overflow:hidden;background:var(--y);padding:.8rem 0;border-top:2px solid var(--y3);border-bottom:2px solid var(--y3)}
+.mq-track{display:flex;white-space:nowrap;animation:mq 20s linear infinite}
+.mq-item{font-family:'Anton',sans-serif;font-size:1rem;letter-spacing:.15em;text-transform:uppercase;color:var(--black);padding:0 2rem;display:inline-flex;align-items:center;gap:1.5rem;opacity:.75;flex-shrink:0}
+.mq-dot{width:6px;height:6px;background:var(--black);border-radius:50%;opacity:.4}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ─ SERVICES ─ */
+.services{padding:6rem 2.5rem;background:var(--black)}
+.sec-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:4rem}
+.sec-tag{font-size:.6rem;font-weight:700;letter-spacing:.35em;text-transform:uppercase;color:var(--y);margin-bottom:.6rem;display:flex;align-items:center;gap:.6rem}
+.sec-tag::before{content:'//';opacity:.5}
+.sec-h{font-family:'Anton',sans-serif;font-size:clamp(2.5rem,5vw,5rem);line-height:.9;letter-spacing:.02em}
+.sec-h em{font-family:'Playfair Display',serif;font-style:italic;color:var(--y);font-size:.85em}
+
+/* alternating panels */
+.svc-panels{display:flex;flex-direction:column;gap:2px;background:var(--border)}
+.svc-panel{display:grid;grid-template-columns:1fr 1fr;background:var(--black);min-height:480px}
+.svc-panel:nth-child(even) .sp-img{order:-1}
+.sp-img{position:relative;overflow:hidden;background:var(--black2)}
+.sp-img svg{width:100%;height:100%;display:block;transition:transform .6s ease}
+.svc-panel:hover .sp-img svg{transform:scale(1.04)}
+.sp-tag{position:absolute;top:0;left:0;background:var(--y);color:var(--black);font-family:'Anton',sans-serif;font-size:.75rem;letter-spacing:.12em;padding:.45rem 1.1rem;display:flex;align-items:center;gap:.5rem}
+.sp-tag svg{width:14px;height:14px;fill:var(--black)}
+.sp-body{padding:3.5rem 3rem;display:flex;flex-direction:column;justify-content:center}
+.sp-num{font-family:'Anton',sans-serif;font-size:6rem;color:rgba(245,200,0,.07);line-height:1;margin-bottom:.2rem}
+.sp-title{font-family:'Anton',sans-serif;font-size:clamp(2rem,3vw,3.2rem);line-height:.92;letter-spacing:.02em;margin-bottom:1.2rem}
+.sp-title em{font-family:'Playfair Display',serif;font-style:italic;color:var(--y);font-size:.9em}
+.sp-desc{font-size:.88rem;font-weight:300;color:var(--grey);line-height:1.85;margin-bottom:2rem;max-width:420px}
+
+/* agent chips */
+.sp-agents{display:flex;gap:.8rem;flex-wrap:wrap;margin-bottom:2rem}
+.ag{display:flex;align-items:center;gap:.85rem;border:1px solid var(--border);padding:.85rem 1rem;flex:1;min-width:190px;transition:border-color .2s,background .2s;cursor:pointer;background:var(--black2)}
+.ag:hover{border-color:var(--y);background:var(--black3)}
+.ag-av{width:44px;height:44px;border-radius:50%;overflow:hidden;flex-shrink:0;border:1px solid var(--border)}
+.ag-av svg{width:100%;height:100%}
+.ag-name{font-size:.78rem;font-weight:600;color:var(--white);margin-bottom:.15rem}
+.ag-tel{font-size:.7rem;color:var(--y);text-decoration:none;display:block;font-weight:500;transition:color .2s}
+.ag-tel:hover{color:var(--y2)}
+.ag-mail{font-size:.65rem;color:var(--grey);text-decoration:none;transition:color .2s}
+.ag-mail:hover{color:var(--white)}
+.sp-cta{font-family:'Anton',sans-serif;font-size:.78rem;letter-spacing:.15em;text-transform:uppercase;color:var(--black);background:var(--y);border:none;padding:.7rem 1.8rem;cursor:none;transition:all .2s;display:inline-flex;align-items:center;gap:.6rem;clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%)}
+.sp-cta:hover{background:var(--y2);transform:translateX(4px)}
+
+/* ─ ABOUT ─ */
+.about{background:var(--y);padding:5rem 2.5rem;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.about-left .sec-tag{color:rgba(0,0,0,.5)}
+.about-left .sec-tag::before{color:rgba(0,0,0,.3)}
+.about-left .sec-h{color:var(--black)}
+.about-p{font-size:.92rem;font-weight:400;color:rgba(0,0,0,.65);line-height:1.9;margin:1.5rem 0 2rem}
+.about-list{list-style:none;display:flex;flex-direction:column;gap:.5rem;margin-bottom:2.5rem}
+.about-list li{font-size:.8rem;color:rgba(0,0,0,.7);display:flex;align-items:center;gap:.7rem;font-weight:500}
+.about-list li::before{content:'';width:16px;height:2px;background:var(--black);flex-shrink:0;opacity:.4}
+.btn-dark{font-family:'Anton',sans-serif;font-size:.85rem;letter-spacing:.15em;text-transform:uppercase;background:var(--black);color:var(--y);border:none;padding:.9rem 2.2rem;cursor:none;transition:all .2s;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%)}
+.btn-dark:hover{background:var(--black3);transform:translateY(-1px)}
+/* numbers grid */
+.about-nums{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(0,0,0,.15)}
+.an{background:rgba(0,0,0,.08);padding:2rem;border-bottom:3px solid rgba(0,0,0,.2);transition:background .2s}
+.an:hover{background:rgba(0,0,0,.14)}
+.an-val{font-family:'Anton',sans-serif;font-size:3rem;color:var(--black);line-height:1}
+.an-lbl{font-size:.6rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(0,0,0,.5);margin-top:.3rem}
+
+/* ─ CONTACT ─ */
+.contact{display:grid;grid-template-columns:1fr 1.2fr;background:var(--black)}
+.c-left{padding:5rem 3rem;background:var(--black2);border-right:1px solid var(--border)}
+.c-right{padding:5rem 3rem}
+.c-info{display:flex;flex-direction:column;gap:1.8rem;margin-top:2.5rem}
+.ci label{font-size:.58rem;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:var(--y);display:block;margin-bottom:.3rem}
+.ci p,.ci a{font-size:.92rem;font-weight:400;color:var(--white);text-decoration:none;line-height:1.5;display:block;transition:color .2s}
+.ci a:hover{color:var(--y)}
+.socials{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:2.5rem}
+.soc{display:flex;align-items:center;gap:.5rem;font-size:.62rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--grey);border:1px solid var(--border);padding:.5rem 1rem;text-decoration:none;transition:all .2s}
+.soc svg{width:13px;height:13px;fill:var(--grey);transition:fill .2s}
+.soc:hover{border-color:var(--y);color:var(--y)}
+.soc:hover svg{fill:var(--y)}
+/* form */
+.cf{display:flex;flex-direction:column;gap:1.1rem}
+.cf-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.cf-g label{font-size:.58rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--grey);display:block;margin-bottom:.4rem}
+.cf-g input,.cf-g select,.cf-g textarea{width:100%;background:var(--black2);border:1px solid var(--border);border-bottom:2px solid rgba(245,200,0,.3);color:var(--white);font-family:'Space Grotesk',sans-serif;font-size:.88rem;padding:.8rem 1rem;outline:none;transition:border-color .2s;-webkit-appearance:none}
+.cf-g select option{background:var(--black2)}
+.cf-g input:focus,.cf-g select:focus,.cf-g textarea:focus{border-color:var(--y);border-bottom-color:var(--y)}
+.cf-g textarea{resize:vertical;min-height:110px}
+.rodo-row{display:flex;align-items:flex-start;gap:.7rem}
+.rodo-row input{width:auto;accent-color:var(--y);margin-top:3px;flex-shrink:0;cursor:none}
+.rodo-row label{font-size:.7rem;color:var(--grey);line-height:1.5;letter-spacing:0;text-transform:none;cursor:none}
+.form-ok{display:none;background:rgba(245,200,0,.08);border:1px solid rgba(245,200,0,.3);border-left:3px solid var(--y);padding:1rem 1.2rem;font-size:.82rem;color:var(--y);margin-top:.5rem}
+.form-ok.show{display:block}
+
+/* ─ FOOTER ─ */
+footer{background:var(--black);border-top:2px solid var(--y);padding:2.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem}
+.f-logo{font-family:'Anton',sans-serif;font-size:1.2rem;letter-spacing:.1em;color:var(--white)}
+.f-logo span{color:var(--y)}
+.f-copy{font-size:.62rem;font-weight:500;color:var(--grey);letter-spacing:.08em;margin-top:.2rem}
+.f-links{display:flex;gap:1.5rem;flex-wrap:wrap}
+.f-links a{font-size:.6rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--grey);text-decoration:none;transition:color .2s}
+.f-links a:hover{color:var(--y)}
+
+/* ─ COOKIE ─ */
+#ck{position:fixed;bottom:0;left:0;right:0;z-index:600;background:var(--black2);border-top:1px solid var(--border);padding:.9rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:1.5rem}
+#ck p{font-size:.72rem;color:var(--grey);line-height:1.5}
+#ck a{color:var(--y)}
+#ck button{font-family:'Anton',sans-serif;font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;background:var(--y);color:var(--black);border:none;padding:.5rem 1.5rem;cursor:none;transition:background .2s;flex-shrink:0}
+#ck button:hover{background:var(--y2)}
+#ck.gone{display:none}
+
+/* ─ SIDE BUTTONS ─ */
+.side{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:400;display:flex;flex-direction:column}
+.side a{width:48px;height:48px;background:var(--black2);border-left:2px solid var(--y);display:flex;align-items:center;justify-content:center;text-decoration:none;transition:background .2s;margin-bottom:2px}
+.side a:hover{background:var(--black3)}
+.side a svg{width:17px;height:17px;fill:var(--y)}
+
+/* ─ REVEAL ─ */
+.rv{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s ease}
+.rv.on{opacity:1;transform:none}
+.rv-l{opacity:0;transform:translateX(-28px);transition:opacity .85s ease,transform .85s ease}
+.rv-l.on{opacity:1;transform:none}
+.rv-r{opacity:0;transform:translateX(28px);transition:opacity .85s ease,transform .85s ease}
+.rv-r.on{opacity:1;transform:none}
+
+/* ─ RESPONSIVE ─ */
+@media(max-width:900px){
+  .nav-links{display:none}
+  .hero{grid-template-columns:1fr}.hero-right{display:none}
+  .svc-panel{grid-template-columns:1fr}
+  .svc-panel:nth-child(even) .sp-img{order:0}
+  .sp-img{min-height:240px}
+  .about{grid-template-columns:1fr;gap:3rem}
+  .contact{grid-template-columns:1fr}
+  .cf-row{grid-template-columns:1fr}
+  .hero-stats{flex-wrap:wrap;gap:1rem}
+  .hst{border-right:none;padding-right:0;margin-right:0}
+}
+</style>
+</head>
+<body>
+
+<div id="c"></div>
+<div id="cr"></div>
+
+<!-- COOKIE -->
+<div id="ck">
+  <p>Używamy Cookies. <a href="#">Polityka prywatności</a>.</p>
+  <button onclick="this.closest('#ck').classList.add('gone')">OK, Rozumiem</button>
+</div>
+
+<!-- SIDE -->
+<div class="side">
+  <a href="https://facebook.com" target="_blank" title="Facebook">
+    <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+  </a>
+  <a href="tel:+48736071824" title="Zadzwoń">
+    <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+  </a>
+  <a href="mailto:biuro@volt.pl" title="E-mail">
+    <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+  </a>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">VOLT<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#biuro">Biuro Nieruchomości</a></li>
+    <li><a href="#dewelopment">Deweloperskie</a></li>
+    <li><a href="#ekspres">Ekspresowa Sprzedaż</a></li>
+    <li><a href="#kredyty">Kredyty</a></li>
+    <li><a href="#kontakt">Kontakt</a></li>
+  </ul>
+  <button class="nav-btn" onclick="document.getElementById('kontakt').scrollIntoView({behavior:'smooth'})">Umów konsultację</button>
+</nav>
+
+<!-- ═══════════ HERO ═══════════ -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-tag">Agencja Nieruchomości Premium · Warszawa</div>
+    <h1 class="hero-h1">
+      <span>Twoja</span>
+      <span class="y">Nieruchomość.</span>
+      <span class="outline">Nasz Priorytet.</span>
+    </h1>
+    <p class="hero-sub">Sprzedaż, wynajem, projekty deweloperskie i ekspresowa sprzedaż — wszystko w jednym miejscu. Skutecznie, transparentnie, z pasją.</p>
+    <div class="hero-ctas">
+      <a href="#biuro" class="btn-y">Nasze usługi</a>
+      <a href="#kontakt" class="btn-ghost-y">Skontaktuj się</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hst"><div class="hst-n">850<sup style="font-size:1.2rem">+</sup></div><div class="hst-l">Transakcji rocznie</div></div>
+      <div class="hst"><div class="hst-n">15</div><div class="hst-l">Lat na rynku</div></div>
+      <div class="hst"><div class="hst-n">98<sup style="font-size:1rem">%</sup></div><div class="hst-l">Zadowolonych klientów</div></div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <svg viewBox="0 0 700 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+      <defs>
+        <pattern id="grid" width="70" height="70" patternUnits="userSpaceOnUse">
+          <path d="M70 0H0V70" fill="none" stroke="#F5C800" stroke-width=".5" opacity=".12"/>
+        </pattern>
+        <radialGradient id="glow" cx="50%" cy="40%" r="50%">
+          <stop offset="0%" stop-color="#F5C800" stop-opacity=".08"/>
+          <stop offset="100%" stop-color="#F5C800" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <rect width="700" height="800" fill="#0A0A08"/>
+      <rect width="700" height="800" fill="url(#grid)"/>
+      <ellipse cx="350" cy="320" rx="300" ry="260" fill="url(#glow)"/>
+
+      <!-- Main tower -->
+      <rect x="200" y="80" width="300" height="720" fill="#111110"/>
+      <rect x="200" y="74" width="300" height="8" fill="#F5C800" opacity=".8"/>
+      <!-- Tower facade grid -->
+      <g stroke="#F5C800" stroke-width=".4" opacity=".1">
+        <line x1="260" y1="80" x2="260" y2="800"/><line x1="320" y1="80" x2="320" y2="800"/>
+        <line x1="380" y1="80" x2="380" y2="800"/><line x1="440" y1="80" x2="440" y2="800"/>
+        <line x1="200" y1="140" x2="500" y2="140"/><line x1="200" y1="200" x2="500" y2="200"/>
+        <line x1="200" y1="260" x2="500" y2="260"/><line x1="200" y1="320" x2="500" y2="320"/>
+        <line x1="200" y1="380" x2="500" y2="380"/><line x1="200" y1="440" x2="500" y2="440"/>
+        <line x1="200" y1="500" x2="500" y2="500"/><line x1="200" y1="560" x2="500" y2="560"/>
+        <line x1="200" y1="620" x2="500" y2="620"/><line x1="200" y1="680" x2="500" y2="680"/>
+        <line x1="200" y1="740" x2="500" y2="740"/>
+      </g>
+      <!-- Yellow lit windows -->
+      <g fill="#F5C800">
+        <rect x="210" y="92"  width="42" height="38" opacity=".45"/>
+        <rect x="270" y="152" width="42" height="38" opacity=".5"/>
+        <rect x="390" y="92"  width="42" height="38" opacity=".4"/>
+        <rect x="448" y="212" width="42" height="38" opacity=".55"/>
+        <rect x="210" y="272" width="42" height="38" opacity=".4"/>
+        <rect x="330" y="332" width="42" height="38" opacity=".5"/>
+        <rect x="448" y="152" width="42" height="38" opacity=".45"/>
+        <rect x="270" y="392" width="42" height="38" opacity=".4"/>
+        <rect x="210" y="452" width="42" height="38" opacity=".5"/>
+        <rect x="390" y="452" width="42" height="38" opacity=".45"/>
+        <rect x="330" y="512" width="42" height="38" opacity=".55"/>
+        <rect x="448" y="572" width="42" height="38" opacity=".4"/>
+        <rect x="210" y="572" width="42" height="38" opacity=".5"/>
+        <rect x="270" y="632" width="42" height="38" opacity=".4"/>
+        <rect x="448" y="692" width="42" height="38" opacity=".45"/>
+        <rect x="330" y="692" width="42" height="38" opacity=".5"/>
+      </g>
+      <!-- Yellow glow windows -->
+      <g fill="#F5C800" opacity=".06">
+        <rect x="200" y="80"  width="300" height="80"/>
+        <rect x="200" y="440" width="300" height="80"/>
+        <rect x="200" y="680" width="300" height="80"/>
+      </g>
+      <!-- Spire -->
+      <rect x="342" y="26" width="16" height="56" fill="#F5C800" opacity=".6"/>
+      <polygon points="350,4 342,30 358,30" fill="#F5C800" opacity=".8"/>
+      <!-- Side buildings -->
+      <rect x="60"  y="280" width="130" height="520" fill="#0D0D0C"/>
+      <rect x="60"  y="276" width="130" height="5" fill="#F5C800" opacity=".3"/>
+      <rect x="510" y="220" width="140" height="580" fill="#0D0D0C"/>
+      <rect x="510" y="216" width="140" height="5" fill="#F5C800" opacity=".3"/>
+      <!-- Side windows -->
+      <g fill="#F5C800" opacity=".18">
+        <rect x="74"  y="295" width="22" height="16"/><rect x="108" y="295" width="22" height="16"/>
+        <rect x="74"  y="328" width="22" height="16"/><rect x="142" y="328" width="22" height="16"/>
+        <rect x="524" y="235" width="22" height="16"/><rect x="558" y="235" width="22" height="16"/>
+        <rect x="592" y="235" width="22" height="16"/><rect x="626" y="235" width="22" height="16"/>
+        <rect x="524" y="268" width="22" height="16"/><rect x="592" y="268" width="22" height="16"/>
+      </g>
+      <!-- Trees -->
+      <ellipse cx="38" cy="700" rx="38" ry="56" fill="#0D0D0C"/>
+      <rect x="34" y="752" width="8" height="50" fill="#080808"/>
+      <ellipse cx="660" cy="680" rx="36" ry="52" fill="#0D0D0C"/>
+      <rect x="656" y="730" width="8" height="70" fill="#080808"/>
+      <!-- Ground -->
+      <rect x="0" y="790" width="700" height="10" fill="#080808"/>
+      <line x1="0" y1="790" x2="700" y2="790" stroke="#F5C800" stroke-width="1.5" opacity=".25"/>
+      <!-- Glow at base -->
+      <rect x="200" y="785" width="300" height="15" fill="#F5C800" opacity=".04"/>
+    </svg>
+
+    <!-- Floating badge -->
+    <div class="hero-badge">
+      <div class="hb-n">15+</div>
+      <div class="hb-l">Lat doświadczenia</div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="mq">
+  <div class="mq-track">
+    <span class="mq-item">Sprzedaż nieruchomości<span class="mq-dot"></span></span>
+    <span class="mq-item">Wynajem premium<span class="mq-dot"></span></span>
+    <span class="mq-item">Projekty deweloperskie<span class="mq-dot"></span></span>
+    <span class="mq-item">Ekspresowa sprzedaż 30 dni<span class="mq-dot"></span></span>
+    <span class="mq-item">Kredyt hipoteczny<span class="mq-dot"></span></span>
+    <span class="mq-item">Home Staging<span class="mq-dot"></span></span>
+    <span class="mq-item">Obsługa notarialna<span class="mq-dot"></span></span>
+    <span class="mq-item">Wycena nieruchomości<span class="mq-dot"></span></span>
+    <!-- duplicate -->
+    <span class="mq-item">Sprzedaż nieruchomości<span class="mq-dot"></span></span>
+    <span class="mq-item">Wynajem premium<span class="mq-dot"></span></span>
+    <span class="mq-item">Projekty deweloperskie<span class="mq-dot"></span></span>
+    <span class="mq-item">Ekspresowa sprzedaż 30 dni<span class="mq-dot"></span></span>
+    <span class="mq-item">Kredyt hipoteczny<span class="mq-dot"></span></span>
+    <span class="mq-item">Home Staging<span class="mq-dot"></span></span>
+    <span class="mq-item">Obsługa notarialna<span class="mq-dot"></span></span>
+    <span class="mq-item">Wycena nieruchomości<span class="mq-dot"></span></span>
+  </div>
+</div>
+
+<!-- ═══════════ SERVICES ═══════════ -->
+<section class="services" id="biuro">
+  <div class="sec-header rv">
+    <div>
+      <div class="sec-tag">Nasze działy</div>
+      <h2 class="sec-h">Co <em>robimy</em></h2>
+    </div>
+    <a href="#kontakt" class="btn-ghost-y" style="align-self:flex-end">Wszystkie usługi →</a>
+  </div>
+
+  <div class="svc-panels">
+
+    <!-- PANEL 1 -->
+    <div class="svc-panel">
+      <div class="sp-img">
+        <svg viewBox="0 0 640 480" preserveAspectRatio="xMidYMid slice" fill="none" xmlns="http://www.w3.org/2000/svg" style="min-height:480px">
+          <rect width="640" height="480" fill="#111110"/>
+          <rect width="640" height="480" fill="url(#grid)"/>
+          <!-- Luxury apartment interior with yellow lighting -->
+          <rect x="0" y="0" width="640" height="310" fill="#0E0E0D"/>
+          <!-- Feature wall dark panels -->
+          <rect x="0" y="0" width="200" height="310" fill="#141412"/>
+          <rect x="440" y="0" width="200" height="310" fill="#141412"/>
+          <!-- Large window center -->
+          <rect x="220" y="20" width="200" height="270" fill="rgba(245,200,0,.06)" stroke="rgba(245,200,0,.2)" stroke-width=".8"/>
+          <line x1="320" y1="20" x2="320" y2="290" stroke="rgba(245,200,0,.15)" stroke-width=".8"/>
+          <line x1="220" y1="155" x2="420" y2="155" stroke="rgba(245,200,0,.15)" stroke-width=".8"/>
+          <!-- Curtains -->
+          <path d="M220 20 Q205 155 215 290" fill="#161614" stroke="rgba(245,200,0,.1)" stroke-width=".5"/>
+          <path d="M420 20 Q435 155 425 290" fill="#161614" stroke="rgba(245,200,0,.1)" stroke-width=".5"/>
+          <!-- Yellow ceiling light glow -->
+          <ellipse cx="320" cy="0" rx="200" ry="80" fill="rgba(245,200,0,.05)"/>
+          <!-- Floor dark wood -->
+          <rect x="0" y="308" width="640" height="172" fill="#0C0C0B"/>
+          <g stroke="rgba(245,200,0,.06)" stroke-width=".8">
+            <line x1="0" y1="340" x2="640" y2="340"/><line x1="0" y1="370" x2="640" y2="370"/>
+            <line x1="0" y1="400" x2="640" y2="400"/><line x1="0" y1="430" x2="640" y2="430"/>
+            <line x1="0" y1="460" x2="640" y2="460"/>
+            <line x1="80" y1="308" x2="80" y2="480"/><line x1="160" y1="308" x2="160" y2="480"/>
+            <line x1="320" y1="308" x2="320" y2="480"/><line x1="480" y1="308" x2="480" y2="480"/>
+            <line x1="560" y1="308" x2="560" y2="480"/>
+          </g>
+          <!-- Sofa -->
+          <rect x="150" y="265" width="340" height="60" rx="4" fill="#1A1A18"/>
+          <rect x="150" y="262" width="340" height="8" rx="2" fill="#222220"/>
+          <rect x="150" y="262" width="8" height="62" rx="2" fill="#1E1E1C"/>
+          <rect x="482" y="262" width="8" height="62" rx="2" fill="#1E1E1C"/>
+          <!-- Cushions -->
+          <rect x="165" y="270" width="85" height="48" rx="3" fill="#222220"/>
+          <rect x="266" y="270" width="108" height="48" rx="3" fill="#1E1E1C"/>
+          <rect x="390" y="270" width="85" height="48" rx="3" fill="#222220"/>
+          <!-- Yellow accent coffee table -->
+          <rect x="230" y="332" width="180" height="8" rx="2" fill="#F5C800" opacity=".35"/>
+          <rect x="270" y="340" width="20" height="28" fill="#8A7200" opacity=".4"/>
+          <rect x="350" y="340" width="20" height="28" fill="#8A7200" opacity=".4"/>
+          <!-- Floor lamp yellow glow -->
+          <rect x="542" y="160" width="3" height="150" fill="#222220"/>
+          <ellipse cx="543" cy="158" rx="26" ry="11" fill="#1A1A18" stroke="rgba(245,200,0,.3)" stroke-width=".8"/>
+          <radialGradient id="lg" cx="543" cy="200" r="100" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#F5C800" stop-opacity=".18"/>
+            <stop offset="100%" stop-color="#F5C800" stop-opacity="0"/>
+          </radialGradient>
+          <ellipse cx="543" cy="230" rx="110" ry="80" fill="url(#lg)"/>
+          <!-- Yellow baseboard accent -->
+          <line x1="0" y1="308" x2="640" y2="308" stroke="#F5C800" stroke-width="2" opacity=".4"/>
+        </svg>
+        <div class="sp-tag">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Biuro Nieruchomości
+        </div>
+      </div>
+      <div class="sp-body rv-r">
+        <div class="sp-num">01</div>
+        <h3 class="sp-title">Biuro<br><em>Nieruchomości</em></h3>
+        <p class="sp-desc">Kompleksowa sprzedaż i wynajem nieruchomości. Profesjonalne doradztwo, home staging, fotografia premium i skuteczny marketing. Prowadzimy od wyceny po klucze.</p>
+        <div class="sp-agents">
+          <div class="ag">
+            <div class="ag-av"><svg viewBox="0 0 44 44" fill="none"><rect width="44" height="44" fill="#1A1A18"/><ellipse cx="22" cy="17" rx="10" ry="11" fill="#242420"/><path d="M4 44Q6 30 14 26Q22 22 30 26Q38 30 40 44Z" fill="#1E1E1C"/><ellipse cx="22" cy="15" rx="7" ry="8" fill="#2C2C28"/></svg></div>
+            <div>
+              <div class="ag-name">Jarosław Gąsiorowski</div>
+              <a class="ag-tel" href="tel:+48736071824">+48 736 071 824</a>
+              <a class="ag-mail" href="mailto:jarek@volt.pl">jarek@volt.pl</a>
+            </div>
+          </div>
+          <div class="ag">
+            <div class="ag-av"><svg viewBox="0 0 44 44" fill="none"><rect width="44" height="44" fill="#18181A"/><ellipse cx="22" cy="17" rx="10" ry="11" fill="#222228"/><path d="M4 44Q6 30 14 26Q22 22 30 26Q38 30 40 44Z" fill="#1C1C22"/><ellipse cx="22" cy="15" rx="7" ry="8" fill="#2A2A32"/></svg></div>
+            <div>
+              <div class="ag-name">Rafał Budnik</div>
+              <a class="ag-tel" href="tel:+48605080092">+48 605 080 092</a>
+              <a class="ag-mail" href="mailto:rafal@volt.pl">rafal@volt.pl</a>
+            </div>
+          </div>
+        </div>
+        <button class="sp-cta" onclick="document.getElementById('kontakt').scrollIntoView({behavior:'smooth'})">Skontaktuj się →</button>
+      </div>
+    </div>
+
+    <!-- PANEL 2 -->
+    <div class="svc-panel" id="dewelopment">
+      <div class="sp-body rv-l">
+        <div class="sp-num">02</div>
+        <h3 class="sp-title">Projekty<br><em>Deweloperskie</em></h3>
+        <p class="sp-desc">Ekskluzywny dostęp do inwestycji deweloperskich jeszcze przed premierą. Preferencyjne ceny, priorytetowy wybór lokali i pełne wsparcie prawne przy zakupie.</p>
+        <div class="sp-agents">
+          <div class="ag">
+            <div class="ag-av"><svg viewBox="0 0 44 44" fill="none"><rect width="44" height="44" fill="#181A18"/><ellipse cx="22" cy="17" rx="10" ry="11" fill="#222420"/><path d="M4 44Q6 30 14 26Q22 22 30 26Q38 30 40 44Z" fill="#1C1E1A"/><ellipse cx="22" cy="15" rx="7" ry="8" fill="#2A2E28"/></svg></div>
+            <div>
+              <div class="ag-name">Krzysztof Zapolski</div>
+              <a class="ag-tel" href="tel:+48790435000">+48 790 435 000</a>
+              <a class="ag-mail" href="mailto:krzysiek@volt.pl">krzysiek@volt.pl</a>
+            </div>
+          </div>
+          <div class="ag">
+            <div class="ag-av"><svg viewBox="0 0 44 44" fill="none"><rect width="44" height="44" fill="#1A1812"/><ellipse cx="22" cy="17" rx="10" ry="11" fill="#24200E"/><path d="M4 44Q6 30 14 26Q22 22 30 26Q38 30 40 44Z" fill="#1E1C0E"/><ellipse cx="22" cy="15" rx="7" ry="8" fill="#2C2818"/></svg></div>
+            <div>
+              <div class="ag-name">Patryk Markisz</div>
+              <a class="ag-tel" href="tel:+48730828231">+48 730 828 231</a>
+              <a class="ag-mail" href="mailto:patryk@volt.pl">patryk@volt.pl</a>
+            </div>
+          </div>
+        </div>
+        <button class="sp-cta" onclick="document.getElementById('kontakt').scrollIntoView({behavior:'smooth'})">Skontaktuj się →</button>
+      </div>
+      <div class="sp-img">
+        <svg viewBox="0 0 640 480" preserveAspectRatio="xMidYMid slice" fill="none" xmlns="http://www.w3.org/2000/svg" style="min-height:480px">
+          <rect width="640" height="480" fill="#0C0E0A"/>
+          <rect width="640" height="480" fill="url(#grid)"/>
+          <!-- Night new build -->
+          <rect x="0" y="0" width="640" height="310" fill="#090B08"/>
+          <!-- Stars -->
+          <g fill="#F5C800" opacity=".4"><circle cx="60" cy="30" r="1"/><circle cx="180" cy="15" r="1.2"/><circle cx="400" cy="50" r="1"/><circle cx="550" cy="25" r="1.3"/><circle cx="310" cy="70" r="1"/></g>
+          <!-- Modern residential block -->
+          <rect x="100" y="80" width="440" height="310" fill="#0E100C"/>
+          <rect x="100" y="75" width="440" height="6" fill="#F5C800" opacity=".6"/>
+          <!-- Glass facade panels -->
+          <g fill="rgba(245,200,0,.08)" stroke="rgba(245,200,0,.18)" stroke-width=".6">
+            <rect x="118" y="92"  width="60" height="50"/><rect x="192" y="92"  width="60" height="50"/>
+            <rect x="266" y="92"  width="60" height="50"/><rect x="340" y="92"  width="60" height="50"/>
+            <rect x="414" y="92"  width="60" height="50"/><rect x="488" y="92"  width="40" height="50"/>
+            <rect x="118" y="158" width="60" height="50"/><rect x="192" y="158" width="60" height="50"/>
+            <rect x="266" y="158" width="60" height="50"/><rect x="340" y="158" width="60" height="50"/>
+            <rect x="414" y="158" width="60" height="50"/><rect x="488" y="158" width="40" height="50"/>
+            <rect x="118" y="224" width="60" height="50"/><rect x="192" y="224" width="60" height="50"/>
+            <rect x="266" y="224" width="60" height="50"/><rect x="340" y="224" width="60" height="50"/>
+            <rect x="414" y="224" width="60" height="50"/><rect x="488" y="224" width="40" height="50"/>
+          </g>
+          <!-- Yellow lit windows -->
+          <g fill="#F5C800">
+            <rect x="120" y="94"  width="56" height="46" opacity=".4"/>
+            <rect x="268" y="94"  width="56" height="46" opacity=".5"/>
+            <rect x="416" y="160" width="56" height="46" opacity=".45"/>
+            <rect x="194" y="226" width="56" height="46" opacity=".4"/>
+            <rect x="342" y="160" width="56" height="46" opacity=".5"/>
+            <rect x="490" y="94"  width="38" height="46" opacity=".35"/>
+            <rect x="120" y="226" width="56" height="46" opacity=".45"/>
+            <rect x="416" y="226" width="56" height="46" opacity=".4"/>
+          </g>
+          <!-- Ground floor entrance -->
+          <rect x="240" y="288" width="160" height="102" fill="#0C0E0A"/>
+          <rect x="240" y="286" width="160" height="4" fill="#F5C800" opacity=".4"/>
+          <!-- Canopy yellow line -->
+          <rect x="220" y="286" width="200" height="3" fill="#F5C800" opacity=".5"/>
+          <!-- Ground -->
+          <rect x="0" y="388" width="640" height="92" fill="#080908"/>
+          <line x1="0" y1="388" x2="640" y2="388" stroke="#F5C800" stroke-width="1.5" opacity=".25"/>
+          <!-- Trees -->
+          <ellipse cx="60" cy="340" rx="40" ry="56" fill="#070907"/>
+          <rect x="56" y="392" width="8" height="90" fill="#060806"/>
+          <ellipse cx="580" cy="330" rx="36" ry="52" fill="#070907"/>
+          <rect x="576" y="380" width="8" height="100" fill="#060806"/>
+          <!-- Water reflection band -->
+          <rect x="100" y="390" width="440" height="20" fill="#F5C800" opacity=".03"/>
+        </svg>
+        <div class="sp-tag">
+          <svg viewBox="0 0 24 24"><path d="M15 11V5l-3-3-3 3v2H3v14h18V11h-6zm-8 8H5v-2h2v2zm0-4H5v-2h2v2zm0-4H5V9h2v2zm6 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V9h2v2zm0-4h-2V5h2v2zm6 12h-2v-2h2v2zm0-4h-2v-2h2v2z"/></svg>
+          Deweloperskie
+        </div>
+      </div>
+    </div>
+
+    <!-- PANEL 3 -->
+    <div class="svc-panel" id="ekspres">
+      <div class="sp-img">
+        <svg viewBox="0 0 640 480" preserveAspectRatio="xMidYMid slice" fill="none" xmlns="http://www.w3.org/2000/svg" style="min-height:480px">
+          <rect width="640" height="480" fill="#0F0D00"/>
+          <rect width="640" height="480" fill="url(#grid)"/>
+          <!-- Yellow dramatic exterior scene -->
+          <ellipse cx="320" cy="200" rx="320" ry="250" fill="rgba(245,200,0,.04)"/>
+          <!-- Villa night with dramatic yellow lights -->
+          <rect x="80" y="120" width="480" height="280" fill="#100E00"/>
+          <rect x="80" y="115" width="480" height="6" fill="#F5C800" opacity=".7"/>
+          <!-- Big windows warm yellow interior glow -->
+          <rect x="105" y="138" width="140" height="110" fill="rgba(245,200,0,.14)" stroke="rgba(245,200,0,.3)" stroke-width=".8"/>
+          <rect x="265" y="138" width="190" height="110" fill="rgba(245,200,0,.2)" stroke="rgba(245,200,0,.35)" stroke-width=".8"/>
+          <rect x="475" y="138" width="65"  height="110" fill="rgba(245,200,0,.12)" stroke="rgba(245,200,0,.25)" stroke-width=".8"/>
+          <!-- Warm glow spill on floor -->
+          <radialGradient id="yg1" cx="175" cy="248" r="90" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#F5C800" stop-opacity=".2"/>
+            <stop offset="100%" stop-color="#F5C800" stop-opacity="0"/>
+          </radialGradient>
+          <ellipse cx="175" cy="258" rx="100" ry="60" fill="url(#yg1)"/>
+          <radialGradient id="yg2" cx="360" cy="248" r="120" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#F5C800" stop-opacity=".25"/>
+            <stop offset="100%" stop-color="#F5C800" stop-opacity="0"/>
+          </radialGradient>
+          <ellipse cx="360" cy="258" rx="130" ry="70" fill="url(#yg2)"/>
+          <!-- Upper windows -->
+          <g fill="rgba(245,200,0,.1)" stroke="rgba(245,200,0,.2)" stroke-width=".5">
+            <rect x="115" y="264" width="64" height="46"/><rect x="198" y="264" width="64" height="46"/>
+            <rect x="282" y="264" width="64" height="46"/><rect x="366" y="264" width="64" height="46"/>
+            <rect x="450" y="264" width="64" height="46"/>
+          </g>
+          <!-- Entrance door -->
+          <rect x="274" y="310" width="92" height="90" fill="rgba(245,200,0,.06)" stroke="rgba(245,200,0,.25)" stroke-width=".8"/>
+          <!-- Driveway ground -->
+          <rect x="0" y="396" width="640" height="84" fill="#0A0800"/>
+          <line x1="0" y1="396" x2="640" y2="396" stroke="#F5C800" stroke-width="1.5" opacity=".3"/>
+          <!-- Driveway light dots -->
+          <g fill="#F5C800" opacity=".7"><circle cx="220" cy="416" r="3"/><circle cx="320" cy="416" r="3"/><circle cx="420" cy="416" r="3"/></g>
+          <g fill="#F5C800" opacity=".06"><circle cx="220" cy="420" r="22"/><circle cx="320" cy="420" r="22"/><circle cx="420" cy="420" r="22"/></g>
+          <!-- Trees -->
+          <ellipse cx="36" cy="330" rx="36" ry="54" fill="#080700"/>
+          <rect x="32" y="380" width="8" height="100" fill="#060500"/>
+          <ellipse cx="604" cy="310" rx="36" ry="52" fill="#080700"/>
+          <rect x="600" y="360" width="8" height="120" fill="#060500"/>
+          <!-- "30 dni" badge -->
+          <g transform="translate(530,420)">
+            <circle cx="0" cy="0" r="48" fill="rgba(15,13,0,.9)" stroke="#F5C800" stroke-width="1.5" opacity=".8"/>
+            <text x="0" y="-10" font-family="'Space Grotesk',sans-serif" font-size="8" font-weight="700" fill="#F5C800" text-anchor="middle" letter-spacing="1" opacity=".8">SPRZEDAMY W</text>
+            <text x="0" y="14" font-family="'Anton',sans-serif" font-size="22" fill="#F5C800" text-anchor="middle">30 DNI</text>
+          </g>
+        </svg>
+        <div class="sp-tag">
+          <svg viewBox="0 0 24 24"><path d="M13 2.05V4.05C17.39 4.59 20.5 8.58 19.96 12.97C19.5 16.61 16.64 19.5 13 19.93V21.93C18.5 21.38 22.5 16.5 21.95 11C21.5 6.25 17.73 2.5 13 2.05M11 2.06C9.05 2.25 7.19 3 5.67 4.26L7.1 5.74C8.22 4.84 9.57 4.26 11 4.06V2.06M4.26 5.67C3 7.19 2.25 9.04 2.05 11H4.05C4.24 9.58 4.8 8.23 5.69 7.1L4.26 5.67M2.06 13C2.26 14.96 3.03 16.81 4.27 18.33L5.69 16.9C4.81 15.77 4.24 14.42 4.06 13H2.06M7.1 18.37L5.67 19.74C7.18 21 9.04 21.79 11 22V20C9.58 19.82 8.23 19.25 7.1 18.37M12 7L8 11H11V17H13V11H16L12 7Z"/></svg>
+          Ekspresowa Sprzedaż
+        </div>
+      </div>
+      <div class="sp-body rv-r">
+        <div class="sp-num">03</div>
+        <h3 class="sp-title">Ekspresowa<br><em>Sprzedaż</em></h3>
+        <p class="sp-desc">Sprzedamy Twoją nieruchomość w 30 dni lub szybciej. Aktywna baza kupujących, intensywny marketing i sprawdzony system — szybko i po dobrej cenie.</p>
+        <div class="sp-agents">
+          <div class="ag">
+            <div class="ag-av"><svg viewBox="0 0 44 44" fill="none"><rect width="44" height="44" fill="#1A1A18"/><ellipse cx="22" cy="17" rx="10" ry="11" fill="#242420"/><path d="M4 44Q6 30 14 26Q22 22 30 26Q38 30 40 44Z" fill="#1E1E1C"/><ellipse cx="22" cy="15" rx="7" ry="8" fill="#2C2C28"/></svg></div>
+            <div>
+              <div class="ag-name">Rafał Budnik</div>
+              <a class="ag-tel" href="tel:+48605080092">+48 605 080 092</a>
+              <a class="ag-mail" href="mailto:rafal@volt.pl">rafal@volt.pl</a>
+            </div>
+          </div>
+        </div>
+        <button class="sp-cta" onclick="document.getElementById('kontakt').scrollIntoView({behavior:'smooth'})">Skontaktuj się →</button>
+      </div>
+    </div>
+
+    <!-- PANEL 4 -->
+    <div class="svc-panel" id="kredyty">
+      <div class="sp-body rv-l">
+        <div class="sp-num">04</div>
+        <h3 class="sp-title">Kredyty<br><em>&amp; Ubezpieczenia</em></h3>
+        <p class="sp-desc">Niezależne doradztwo kredytowe — porównujemy oferty ponad 20 banków. Bezpłatna konsultacja, zero ukrytych opłat. Znajdziemy najlepsze warunki dla Ciebie.</p>
+        <div class="sp-agents">
+          <div class="ag">
+            <div class="ag-av"><svg viewBox="0 0 44 44" fill="none"><rect width="44" height="44" fill="#1A1622"/><ellipse cx="22" cy="17" rx="10" ry="11" fill="#24202E"/><path d="M4 44Q6 30 14 26Q22 22 30 26Q38 30 40 44Z" fill="#1E1C28"/><ellipse cx="22" cy="15" rx="7" ry="8" fill="#2C2838"/></svg></div>
+            <div>
+              <div class="ag-name">Marta Wyciszkiewicz</div>
+              <a class="ag-tel" href="tel:+48783648288">+48 783 648 288</a>
+              <a class="ag-mail" href="mailto:marta@volt.pl">marta@volt.pl</a>
+            </div>
+          </div>
+        </div>
+        <button class="sp-cta" onclick="document.getElementById('kontakt').scrollIntoView({behavior:'smooth'})">Skontaktuj się →</button>
+      </div>
+      <div class="sp-img">
+        <svg viewBox="0 0 640 480" preserveAspectRatio="xMidYMid slice" fill="none" xmlns="http://www.w3.org/2000/svg" style="min-height:480px">
+          <rect width="640" height="480" fill="#0A0A02"/>
+          <rect width="640" height="480" fill="url(#grid)"/>
+          <!-- Finance / key abstract -->
+          <circle cx="320" cy="240" r="200" fill="none" stroke="#F5C800" stroke-width=".8" opacity=".1"/>
+          <circle cx="320" cy="240" r="150" fill="none" stroke="#F5C800" stroke-width=".5" opacity=".08"/>
+          <circle cx="320" cy="240" r="90"  fill="rgba(245,200,0,.04)" stroke="#F5C800" stroke-width=".8" opacity=".18"/>
+          <!-- Key -->
+          <g transform="translate(158,170)" opacity=".65">
+            <circle cx="80" cy="65" r="55" fill="none" stroke="#F5C800" stroke-width="5" opacity=".4"/>
+            <circle cx="80" cy="65" r="36" fill="none" stroke="#F5C800" stroke-width="2" opacity=".2"/>
+            <circle cx="80" cy="65" r="16" fill="#F5C800" opacity=".25"/>
+            <rect x="122" y="61" width="190" height="8" rx="4" fill="#F5C800" opacity=".4"/>
+            <rect x="182" y="69" width="12" height="24" rx="2" fill="#F5C800" opacity=".4"/>
+            <rect x="216" y="69" width="12" height="18" rx="2" fill="#F5C800" opacity=".4"/>
+            <rect x="250" y="69" width="12" height="22" rx="2" fill="#F5C800" opacity=".4"/>
+            <rect x="278" y="69" width="12" height="14" rx="2" fill="#F5C800" opacity=".4"/>
+          </g>
+          <!-- Big % -->
+          <text x="60" y="260" font-family="'Anton',sans-serif" font-size="160" fill="#F5C800" opacity=".04">%</text>
+          <!-- Bank name tags -->
+          <g fill="none" stroke="rgba(245,200,0,.15)" stroke-width=".6">
+            <rect x="80"  y="380" width="80" height="30" rx="2"/>
+            <rect x="178" y="380" width="80" height="30" rx="2"/>
+            <rect x="276" y="380" width="80" height="30" rx="2"/>
+            <rect x="374" y="380" width="80" height="30" rx="2"/>
+            <rect x="472" y="380" width="80" height="30" rx="2"/>
+          </g>
+          <g font-family="'Space Grotesk',sans-serif" font-size="9" font-weight="700" fill="#F5C800" opacity=".28" text-anchor="middle" letter-spacing="1">
+            <text x="120" y="400">PKO BP</text>
+            <text x="218" y="400">PEKAO</text>
+            <text x="316" y="400">ING</text>
+            <text x="414" y="400">mBANK</text>
+            <text x="512" y="400">SANTANDER</text>
+          </g>
+          <!-- Stars rating -->
+          <text x="230" y="330" font-family="serif" font-size="32" fill="#F5C800" opacity=".4">★★★★★</text>
+          <text x="318" y="355" font-family="'Space Grotesk',sans-serif" font-size="10" font-weight="700" fill="#F5C800" opacity=".3" text-anchor="middle" letter-spacing="2">20+ BANKÓW</text>
+        </svg>
+        <div class="sp-tag">
+          <svg viewBox="0 0 24 24"><path d="M11.5 2C6.81 2 3 5.81 3 10.5S6.81 19 11.5 19h.5v3c4.86-2.34 8-7 8-11.5C20 5.81 16.19 2 11.5 2zm1 14.5h-2v-2h2v2zm0-4h-2c0-3.25 3-3 3-5 0-1.1-.9-2-2-2s-2 .9-2 2h-2c0-2.21 1.79-4 4-4s4 1.79 4 4c0 2.5-3 2.75-3 5z"/></svg>
+          Kredyty & Ubezpieczenia
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════ ABOUT ═══════════ -->
+<div class="about" id="onas">
+  <div class="rv-l">
+    <div class="sec-tag" style="color:rgba(0,0,0,.5)">O nas</div>
+    <h2 class="sec-h" style="color:var(--black)">VOLT Estate —<br>więcej niż <em style="color:var(--black3)">agencja</em></h2>
+    <p class="about-p">Od 2009 roku skutecznie łączymy kupujących ze sprzedającymi. Nie jesteśmy kolejną agencją — jesteśmy partnerem, który bierze odpowiedzialność za wynik. Każda transakcja to nasza pełna uwaga.</p>
+    <ul class="about-list">
+      <li>Transparentny proces bez ukrytych kosztów</li>
+      <li>Dedykowany opiekun na każdym etapie</li>
+      <li>Home staging i fotografia premium w cenie</li>
+      <li>Aktywna baza 2000+ kupujących</li>
+      <li>Pełna obsługa prawna i notarialna</li>
+    </ul>
+    <button class="btn-dark" onclick="document.getElementById('kontakt').scrollIntoView({behavior:'smooth'})">Umów bezpłatną konsultację</button>
+  </div>
+  <div class="rv-r">
+    <div class="about-nums">
+      <div class="an"><div class="an-val">850+</div><div class="an-lbl">Transakcji rocznie</div></div>
+      <div class="an"><div class="an-val">15</div><div class="an-lbl">Lat na rynku</div></div>
+      <div class="an"><div class="an-val">98%</div><div class="an-lbl">Zadowolonych klientów</div></div>
+      <div class="an"><div class="an-val">4.9★</div><div class="an-lbl">Ocena Google</div></div>
+    </div>
+    <div style="margin-top:1.5rem;border:1px solid rgba(0,0,0,.15);border-left:4px solid var(--black);padding:1.4rem 1.6rem;background:rgba(0,0,0,.07)">
+      <p style="font-size:.9rem;font-style:italic;color:rgba(0,0,0,.6);line-height:1.7;margin-bottom:.6rem">"Sprzedali nasze mieszkanie w 3 tygodnie, powyżej ceny wywoławczej. Profesjonalizm na najwyższym poziomie."</p>
+      <p style="font-size:.62rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:rgba(0,0,0,.45)">— Piotr Z., klient od 2018</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ CONTACT ═══════════ -->
+<div class="contact" id="kontakt">
+  <div class="c-left rv-l">
+    <div class="sec-tag">Kontakt</div>
+    <h2 class="sec-h" style="font-size:clamp(2rem,3.5vw,3.5rem)">Porozmawiajmy<br>o Twojej <em>nieruchomości</em></h2>
+    <div class="c-info">
+      <div class="ci"><label>Adres biura</label><p>ul. Złota 59, 00-120 Warszawa</p></div>
+      <div class="ci"><label>Telefon główny</label><a href="tel:+48736071824">+48 736 071 824</a></div>
+      <div class="ci"><label>E-mail</label><a href="mailto:biuro@volt.pl">biuro@volt.pl</a></div>
+      <div class="ci"><label>Godziny pracy</label><p>Pon – Pt: 9:00 – 18:00<br>Sobota: 10:00 – 14:00</p></div>
+    </div>
+    <div class="socials">
+      <a class="soc" href="#"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>Facebook</a>
+      <a class="soc" href="#"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>Instagram</a>
+      <a class="soc" href="#"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>LinkedIn</a>
+    </div>
+  </div>
+  <div class="c-right rv-r">
+    <div class="sec-tag" style="margin-bottom:1.5rem">Wyślij zapytanie</div>
+    <div class="cf">
+      <div class="cf-row">
+        <div class="cf-g"><label>Imię i nazwisko</label><input type="text" placeholder="Jan Kowalski"></div>
+        <div class="cf-g"><label>Telefon</label><input type="tel" placeholder="+48 600 000 000"></div>
+      </div>
+      <div class="cf-g"><label>E-mail</label><input type="email" placeholder="jan@firma.pl"></div>
+      <div class="cf-g"><label>Temat zapytania</label>
+        <select>
+          <option>Biuro Nieruchomości — sprzedaż / wynajem</option>
+          <option>Projekty Deweloperskie</option>
+          <option>Ekspresowa Sprzedaż</option>
+          <option>Kredyt hipoteczny</option>
+          <option>Inne zapytanie</option>
+        </select>
+      </div>
+      <div class="cf-g"><label>Wiadomość</label><textarea placeholder="Opisz czego szukasz lub co chcesz sprzedać..."></textarea></div>
+      <div class="rodo-row">
+        <input type="checkbox" id="rodo">
+        <label for="rodo">Wyrażam zgodę na przetwarzanie moich danych osobowych przez VOLT Estate Sp. z o.o. w celu odpowiedzi na zapytanie, zgodnie z RODO.</label>
+      </div>
+      <button class="btn-y" style="width:100%;padding:1rem;font-size:.78rem;clip-path:none" onclick="sendForm()">Wyślij zapytanie →</button>
+      <div class="form-ok" id="formOk">✓ Dziękujemy! Odpiszemy w ciągu 24 godzin roboczych.</div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="f-logo">VOLT<span>.</span></div>
+    <div class="f-copy">© 2025 VOLT Estate Sp. z o.o. · Wszelkie prawa zastrzeżone</div>
+  </div>
+  <div class="f-links">
+    <a href="#">Oferty sprzedaży</a>
+    <a href="#">Wynajem</a>
+    <a href="#">FAQ</a>
+    <a href="#">Polityka prywatności</a>
+    <a href="#">RODO</a>
+  </div>
+</footer>
+
+<script>
+/* Cursor */
+const c=document.getElementById('c'),cr=document.getElementById('cr');
+document.addEventListener('mousemove',e=>{c.style.left=e.clientX+'px';c.style.top=e.clientY+'px';cr.style.left=e.clientX+'px';cr.style.top=e.clientY+'px'});
+
+/* Nav scroll */
+window.addEventListener('scroll',()=>document.getElementById('nav').style.boxShadow=window.scrollY>60?'0 2px 30px rgba(0,0,0,.7)':'none');
+
+/* Reveal */
+const io=new IntersectionObserver(entries=>entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('on'),i*70);io.unobserve(e.target)}}),{threshold:.1});
+document.querySelectorAll('.rv,.rv-l,.rv-r').forEach(el=>io.observe(el));
+
+/* Form */
+function sendForm(){
+  if(!document.getElementById('rodo').checked){alert('Proszę wyrazić zgodę na przetwarzanie danych.');return;}
+  const ok=document.getElementById('formOk');
+  ok.classList.add('show');
+  setTimeout(()=>ok.classList.remove('show'),6000);
+}
+
+/* Smooth anchors */
+document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'})}}));
+</script>
+</body>
+</html>
